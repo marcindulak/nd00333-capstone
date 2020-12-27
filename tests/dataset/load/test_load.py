@@ -77,7 +77,7 @@ def test_get_df_from_directory_default():
 @pytest.fixture(scope="session")
 def dataset():
     directory = pathlib.Path(
-        "tests",
+        "datasets",
         "cse-cic-ids2018-clean",
     )
     if os.path.exists(directory):
