@@ -1,4 +1,3 @@
-import os
 import pathlib
 import shutil
 import inspect
@@ -8,26 +7,24 @@ import pandas.testing
 import pytest
 
 from nd00333_capstone.dataset.load import load
+from tests import utils
 
 
 def test_get_df_from_csv_default():
-    filename = pathlib.Path(
-        "tests",
-        "dataset_load_test_load_" + inspect.currentframe().f_code.co_name + ".csv",
-    )
+    directory = utils.get_directory("dataset", inspect.currentframe().f_code.co_name)
+    filename = pathlib.Path(directory, "1.csv")
     data = [["Benign"]]
     columns = ["Label"]
     _ = pd.DataFrame(data=data, columns=columns).to_csv(filename, index=False)
     df = load.get_df_from_csv(filename)
     assert list(df.columns) == ["Label"]
     assert list(df.dtypes) == ["object"]
+    shutil.rmtree(directory)
 
 
 def test_get_df_from_csv_dtype_int():
-    filename = pathlib.Path(
-        "tests",
-        "dataset_load_test_load_" + inspect.currentframe().f_code.co_name + ".csv",
-    )
+    directory = utils.get_directory("dataset", inspect.currentframe().f_code.co_name)
+    filename = pathlib.Path(directory, "1.csv")
     data = ["123", "456"]
     dtype = [("Label", np.dtype(int))]
     records = np.array(data, dtype=dtype)
@@ -35,13 +32,12 @@ def test_get_df_from_csv_dtype_int():
     df = load.get_df_from_csv(filename)
     assert list(df.columns) == ["Label"]
     assert list(df.dtypes) == ["int"]
+    shutil.rmtree(directory)
 
 
 def test_get_df_from_csv_usecols():
-    filename = pathlib.Path(
-        "tests",
-        "dataset_load_test_load_" + inspect.currentframe().f_code.co_name + ".csv",
-    )
+    directory = utils.get_directory("dataset", inspect.currentframe().f_code.co_name)
+    filename = pathlib.Path(directory, "1.csv")
     data = [("1", "Benign"), ("2", "Malicious")]
     dtype = [("dummy1", np.dtype(int)), ("Label", np.dtype(object))]
     records = np.array(data, dtype=dtype)
@@ -50,15 +46,11 @@ def test_get_df_from_csv_usecols():
     df = load.get_df_from_csv(filename, usecols=usecols)
     assert list(df.columns) == ["Label"]
     assert list(df.dtypes) == ["object"]
+    shutil.rmtree(directory)
 
 
 def test_get_df_from_directory_default():
-    directory = pathlib.Path(
-        "tests",
-        "dataset_load_test_load_" + inspect.currentframe().f_code.co_name,
-    )
-    shutil.rmtree(directory)
-    os.mkdir(directory)
+    directory = utils.get_directory("dataset", inspect.currentframe().f_code.co_name)
     columns = ["Label"]
     for iter in [0, 1, 2]:
         _ = pd.DataFrame(data=[iter], columns=columns).to_csv(
@@ -72,15 +64,16 @@ def test_get_df_from_directory_default():
             columns=columns,
         ),
     )
+    shutil.rmtree(directory)
 
 
 @pytest.fixture(scope="session")
 def dataset():
     directory = pathlib.Path(
         "datasets",
-        "cse-cic-ids2018-clean",
+        "ids2018",
     )
-    if os.path.exists(directory):
+    if directory.exists():
         return load.get_df_from_directory(directory)
     else:
         pytest.skip(f"The dataset directory {directory} does not exist")
