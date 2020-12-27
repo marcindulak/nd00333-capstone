@@ -1,0 +1,8 @@
+config.json
+old
+venv
+/datasets/*
+!/datasets/.gitkeep
+tests/temp
+__pycache__
+*~
