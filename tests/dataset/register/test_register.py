@@ -60,7 +60,7 @@ def test_datastore_upload_files_overwrite_false_succeed(mocker):
         "nd00333_capstone.dataset.register.register.upload_files",
         return_value="",
     )
-    filename = pathlib.Path(directory, "1.csv")
+    filename = pathlib.Path(directory, "data.csv")
     data = [["Benign"]]
     columns = ["Label"]
     _ = pd.DataFrame(data=data, columns=columns).to_csv(filename, index=False)

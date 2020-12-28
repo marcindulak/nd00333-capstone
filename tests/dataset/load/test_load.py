@@ -31,7 +31,7 @@ def test_get_df_from_csv_default():
     directory = tests_utils.get_directory(
         "dataset", inspect.currentframe().f_code.co_name
     )
-    filename = pathlib.Path(directory, "1.csv")
+    filename = pathlib.Path(directory, "data.csv")
     data = [["Benign"]]
     columns = ["Label"]
     _ = pd.DataFrame(data=data, columns=columns).to_csv(filename, index=False)
@@ -45,7 +45,7 @@ def test_get_df_from_csv_dtype_int():
     directory = tests_utils.get_directory(
         "dataset", inspect.currentframe().f_code.co_name
     )
-    filename = pathlib.Path(directory, "1.csv")
+    filename = pathlib.Path(directory, "data.csv")
     data = ["123", "456"]
     dtype = [("Label", np.dtype(int))]
     records = np.array(data, dtype=dtype)
@@ -60,7 +60,7 @@ def test_get_df_from_csv_usecols():
     directory = tests_utils.get_directory(
         "dataset", inspect.currentframe().f_code.co_name
     )
-    filename = pathlib.Path(directory, "1.csv")
+    filename = pathlib.Path(directory, "data.csv")
     data = [("1", "Benign"), ("2", "Malicious")]
     dtype = [("dummy1", np.dtype(int)), ("Label", np.dtype(object))]
     records = np.array(data, dtype=dtype)
