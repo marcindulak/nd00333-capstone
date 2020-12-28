@@ -51,12 +51,14 @@ def parse_args():
     )
     parser.add_argument(
         "--dataset-overwrite",
+        required=False,        
         action="store_true",
         default=DEFAULT_ARGS["--dataset-overwrite"],
         help="Whether to overwrite the remote dataset",
     )
     parser.add_argument(
         "--dry-run",
+        required=False,        
         action="store_true",
         default=DEFAULT_ARGS["--dry-run"],
         help="Dry run",
