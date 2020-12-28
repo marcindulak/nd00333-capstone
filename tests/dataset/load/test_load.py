@@ -7,11 +7,11 @@ import pandas.testing
 import pytest
 
 from nd00333_capstone.dataset.load import load
-from tests import utils
+from tests import utils as tests_utils
 
 
 def test_get_df_from_csv_default():
-    directory = utils.get_directory("dataset", inspect.currentframe().f_code.co_name)
+    directory = tests_utils.get_directory("dataset", inspect.currentframe().f_code.co_name)
     filename = pathlib.Path(directory, "1.csv")
     data = [["Benign"]]
     columns = ["Label"]
@@ -23,7 +23,7 @@ def test_get_df_from_csv_default():
 
 
 def test_get_df_from_csv_dtype_int():
-    directory = utils.get_directory("dataset", inspect.currentframe().f_code.co_name)
+    directory = tests_utils.get_directory("dataset", inspect.currentframe().f_code.co_name)
     filename = pathlib.Path(directory, "1.csv")
     data = ["123", "456"]
     dtype = [("Label", np.dtype(int))]
@@ -36,7 +36,7 @@ def test_get_df_from_csv_dtype_int():
 
 
 def test_get_df_from_csv_usecols():
-    directory = utils.get_directory("dataset", inspect.currentframe().f_code.co_name)
+    directory = tests_utils.get_directory("dataset", inspect.currentframe().f_code.co_name)
     filename = pathlib.Path(directory, "1.csv")
     data = [("1", "Benign"), ("2", "Malicious")]
     dtype = [("dummy1", np.dtype(int)), ("Label", np.dtype(object))]
@@ -50,7 +50,7 @@ def test_get_df_from_csv_usecols():
 
 
 def test_get_df_from_directory_default():
-    directory = utils.get_directory("dataset", inspect.currentframe().f_code.co_name)
+    directory = tests_utils.get_directory("dataset", inspect.currentframe().f_code.co_name)
     columns = ["Label"]
     for iter in [0, 1, 2]:
         _ = pd.DataFrame(data=[iter], columns=columns).to_csv(
