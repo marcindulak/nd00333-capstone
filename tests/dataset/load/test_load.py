@@ -69,37 +69,42 @@ def test_get_df_from_directory_default():
 
 @pytest.fixture(scope="session")
 def dataset():
-    directory = pathlib.Path(
-        "datasets",
-        "ids2018",
-    )
-    if directory.exists():
-        return load.get_df_from_directory(directory)
-    else:
-        pytest.skip(f"The dataset directory {directory} does not exist")
+    def inner(name):
+        directory = pathlib.Path(
+            "datasets",
+            name,
+        )
+        if directory.exists():
+            return load.get_df_from_directory(directory)
+        else:
+            pytest.skip(f"The dataset directory {directory} does not exist")
+
+    return inner
 
 
-def test_get_df_from_directory_dataset_columns(dataset):
-    assert list(sorted(dataset.columns)) == sorted(load.DTYPE.keys())
+def test_get_df_from_directory_dataset_full_columns(dataset):
+    assert list(sorted(dataset("ids2018full").columns)) == sorted(load.DTYPE.keys())
 
 
-def test_get_df_from_directory_dataset_dtype(dataset):
+def test_get_df_from_directory_dataset_full_dtype(dataset):
     columns = load.DTYPE.keys()
-    assert list(dataset.dtypes[columns]) == [load.DTYPE[column] for column in columns]
+    assert list(dataset("ids2018full").dtypes[columns]) == [
+        load.DTYPE[column] for column in columns
+    ]
 
 
-def test_get_df_from_directory_dataset_labels(dataset):
+def test_get_df_from_directory_dataset_full_labels(dataset):
     grouped = (
-        dataset[["Flow Duration", "Label"]]
+        dataset("ids2018full")[["Flow Duration", "Label"]]
         .groupby("Label")
         .agg(count=("Flow Duration", "count"))
     )
     assert list(sorted(grouped.index)) == sorted(load.LABEL_TO_INDEX.keys())
 
 
-def test_get_df_from_directory_dataset_fractions(dataset):
+def test_get_df_from_directory_dataset_full_fractions(dataset):
     grouped = (
-        dataset[["Flow Duration", "Label"]]
+        dataset("ids2018full")[["Flow Duration", "Label"]]
         .groupby("Label")
         .agg(count=("Flow Duration", "count"))
     )
@@ -129,3 +134,7 @@ def test_get_df_from_directory_dataset_fractions(dataset):
     )
     for label in sorted(fractions.keys()):
         assert np.isclose(result.loc[label], reference.loc[label], rtol=0.1, atol=0)
+
+
+def test_get_df_from_directory_dataset_test_columns(dataset):
+    assert list(sorted(dataset("ids2018test").columns)) == sorted(load.DTYPE.keys())
