@@ -12,13 +12,7 @@ from tests import utils as tests_utils
 
 
 mock_datastore = collections.namedtuple("datastore", "name")
-
-ARGS = sorted(register.DEFAULT_ARGS.keys())
-mock_args = collections.namedtuple(
-    "args",
-    (arg[2:].replace("-", "_") for arg in ARGS),
-    defaults=(register.DEFAULT_ARGS[arg] for arg in ARGS),
-)
+mock_args = tests_utils.get_mock_args(register.DEFAULT_ARGS)
 
 
 @pytest.fixture
