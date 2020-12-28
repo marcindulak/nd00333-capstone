@@ -9,18 +9,9 @@ from azureml.data.datapath import DataPath
 from azureml.data.dataset_factory import TabularDatasetFactory
 
 from nd00333_capstone.dataset.load import load
+from nd00333_capstone import utils as package_utils
 
-import logging
-from pythonjsonlogger import jsonlogger
-
-logger = logging.getLogger()
-
-logHandler = logging.StreamHandler()
-formatter = jsonlogger.JsonFormatter()
-logHandler.setFormatter(formatter)
-logger.addHandler(logHandler)
-logger.setLevel(logging.INFO)
-
+logger = package_utils.get_logger()
 
 VERSION = "1"
 
@@ -74,7 +65,8 @@ def parse_args():
 
 
 def get_workspace():
-    workspace = Workspace.from_config()
+    dworkspace = Workspace.from_config()
+    workspace = "ws"
     return workspace
 
 
