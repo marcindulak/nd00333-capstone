@@ -46,7 +46,7 @@ def test_datastore_upload_files_directory_does_not_exist(mocker):
 
 def test_datastore_upload_files_overwrite_false_succeed(mocker):
     directory = tests_utils.get_directory(
-        "dataset", inspect.currentframe().f_code.co_name
+        "dataset", pathlib.Path(__file__).stem, inspect.currentframe().f_code.co_name
     )
     dataset_path = directory.parent
     dataset_name = directory.name
@@ -68,3 +68,4 @@ def test_datastore_upload_files_overwrite_false_succeed(mocker):
     datastore_path, target_path = register.datastore_upload_files(register.parse_args())
     assert len(datastore_path) == 1
     assert target_path == f"{args.dataset_name}_{args.dataset_version}"
+    shutil.rmtree(directory)

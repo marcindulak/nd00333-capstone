@@ -3,12 +3,12 @@ import pathlib
 import shutil
 
 
-def get_directory(module, name):
+def get_directory(module, file, name):
     path = pathlib.Path(
         "tests",
         "temp",
         module,
-        pathlib.Path(__file__).stem,
+        file,
         name,
     )
     shutil.rmtree(path, ignore_errors=True)

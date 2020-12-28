@@ -29,7 +29,7 @@ LABEL_FRACTIONS = {
 
 def test_get_df_from_csv_default():
     directory = tests_utils.get_directory(
-        "dataset", inspect.currentframe().f_code.co_name
+        "dataset", pathlib.Path(__file__).stem, inspect.currentframe().f_code.co_name
     )
     filename = pathlib.Path(directory, "data.csv")
     data = [["Benign"]]
@@ -43,7 +43,7 @@ def test_get_df_from_csv_default():
 
 def test_get_df_from_csv_dtype_int():
     directory = tests_utils.get_directory(
-        "dataset", inspect.currentframe().f_code.co_name
+        "dataset", pathlib.Path(__file__).stem, inspect.currentframe().f_code.co_name
     )
     filename = pathlib.Path(directory, "data.csv")
     data = ["123", "456"]
@@ -58,7 +58,7 @@ def test_get_df_from_csv_dtype_int():
 
 def test_get_df_from_csv_usecols():
     directory = tests_utils.get_directory(
-        "dataset", inspect.currentframe().f_code.co_name
+        "dataset", pathlib.Path(__file__).stem, inspect.currentframe().f_code.co_name
     )
     filename = pathlib.Path(directory, "data.csv")
     data = [("1", "Benign"), ("2", "Malicious")]
@@ -74,7 +74,7 @@ def test_get_df_from_csv_usecols():
 
 def test_get_df_from_directory_default():
     directory = tests_utils.get_directory(
-        "dataset", inspect.currentframe().f_code.co_name
+        "dataset", pathlib.Path(__file__).stem, inspect.currentframe().f_code.co_name
     )
     columns = ["Label"]
     for iter in [0, 1, 2]:
