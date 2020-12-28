@@ -8,7 +8,7 @@ import pandas.testing
 import pytest
 
 from nd00333_capstone.dataset.register import register
-from tests import utils
+from tests import utils as tests_utils
 
 
 mock_datastore = collections.namedtuple("datastore", "name")
@@ -51,7 +51,9 @@ def test_datastore_upload_files_directory_does_not_exist(mocker):
 
 
 def test_datastore_upload_files_overwrite_false_succeed(mocker):
-    directory = utils.get_directory("dataset", inspect.currentframe().f_code.co_name)
+    directory = tests_utils.get_directory(
+        "dataset", inspect.currentframe().f_code.co_name
+    )
     dataset_path = directory.parent
     dataset_name = directory.name
     mocker.patch(
