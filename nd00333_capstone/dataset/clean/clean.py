@@ -213,7 +213,7 @@ def get_feature_list(data, tolerance=0.0001, sample_fraction=None):
 
     """Define the model"""
     model_reference = RandomForestClassifier(
-        n_estimators=20, max_depth=8, random_state=0
+        n_estimators=20, max_depth=8, n_jobs=-1, random_state=0
     )
 
     """Convert target feature into integer"""
