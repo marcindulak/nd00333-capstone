@@ -14,12 +14,13 @@ from nd00333_capstone import utils as package_utils
 logger = package_utils.get_logger()
 
 VERSION = "1"
+NAME = "ids2018"
 
 DTYPE_MAP = {"int64": DataType.to_long(), "object": DataType.to_string()}
 DATA_TYPES = {feature: DTYPE_MAP[dtype] for feature, dtype in load.DTYPE.items()}
 DEFAULT_ARGS = {
     "--dataset-path": "datasets",
-    "--dataset-name": "ids2018",
+    "--dataset-name": NAME,
     "--dataset-version": VERSION,
     "--dataset-overwrite": False,
     "--dry-run": False,
