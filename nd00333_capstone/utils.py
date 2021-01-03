@@ -40,3 +40,15 @@ def get_default_datastore(workspace):
     """
     datastore = workspace.get_default_datastore()
     return datastore
+
+
+def trim_cluster_name(name):
+    """
+    It can include letters, digits and dashes. It must start with a letter,
+    end with a letter or digit, and be between 2 and 16 characters in length.
+    """
+    if len(name) <= 16:
+        cluster_name = name
+    else:
+        cluster_name = name[-16:]
+    return cluster_name
