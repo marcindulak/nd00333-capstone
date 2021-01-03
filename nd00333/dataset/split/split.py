@@ -5,8 +5,8 @@ import pandas as pd
 
 from sklearn.model_selection import train_test_split
 
-from nd00333_capstone.dataset.load import load
-from nd00333_capstone import utils as package_utils
+from nd00333.dataset.load import load
+from nd00333 import utils as package_utils
 
 logger = package_utils.get_logger()
 

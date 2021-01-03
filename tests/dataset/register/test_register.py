@@ -7,8 +7,8 @@ import pandas as pd
 import pandas.testing
 import pytest
 
-from nd00333_capstone.dataset.register import register
-from nd00333_capstone import utils as package_utils
+from nd00333.dataset.register import register
+from nd00333 import utils as package_utils
 from tests import utils as tests_utils
 
 
@@ -19,11 +19,11 @@ mock_args = tests_utils.get_mock_args(register.DEFAULT_ARGS)
 @pytest.fixture
 def mocker(mocker):
     mocker.patch(
-        "nd00333_capstone.utils.get_workspace",
+        "nd00333.utils.get_workspace",
         return_value="mocker",
     )
     mocker.patch(
-        "nd00333_capstone.utils.get_default_datastore",
+        "nd00333.utils.get_default_datastore",
         return_value=mock_datastore(name="mocker"),
     )
     return mocker
@@ -33,7 +33,7 @@ def test_datastore_upload_files_directory_does_not_exist(mocker):
     dataset_path = "mocker"
     dataset_name = "mocker"
     mocker.patch(
-        "nd00333_capstone.dataset.register.register.parse_args",
+        "nd00333.dataset.register.register.parse_args",
         return_value=mock_args(dataset_path=dataset_path, dataset_name=dataset_name),
     )
     args = register.parse_args()
@@ -52,13 +52,13 @@ def test_datastore_upload_files_overwrite_false_succeed(mocker):
     dataset_path = directory.parent
     dataset_name = directory.name
     mocker.patch(
-        "nd00333_capstone.dataset.register.register.parse_args",
+        "nd00333.dataset.register.register.parse_args",
         return_value=mock_args(
             dataset_path=dataset_path, dataset_name=dataset_name, dataset_version="2"
         ),
     )
     mocker.patch(
-        "nd00333_capstone.dataset.register.register.upload_files",
+        "nd00333.dataset.register.register.upload_files",
         return_value="",
     )
     filename = pathlib.Path(directory, "data.csv")

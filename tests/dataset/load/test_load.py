@@ -6,7 +6,7 @@ import pandas as pd
 import pandas.testing
 import pytest
 
-from nd00333_capstone.dataset.load import load
+from nd00333.dataset.load import load
 from tests import utils as tests_utils
 
 LABEL_FRACTIONS = {

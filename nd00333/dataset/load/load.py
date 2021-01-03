@@ -4,7 +4,7 @@ import pathlib
 
 from azureml.core.dataset import Dataset
 
-from nd00333_capstone import utils as package_utils
+from nd00333 import utils as package_utils
 
 DTYPE = {
     "Flow Duration": "int64",

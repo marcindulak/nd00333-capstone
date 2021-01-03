@@ -5,7 +5,7 @@ import pandas as pd
 import pandas.testing
 import pytest
 
-from nd00333_capstone.dataset.split import split
+from nd00333.dataset.split import split
 from tests import utils as tests_utils
 
 
@@ -19,7 +19,7 @@ def test_split_default_args(mocker):
     dataset_path = directory
     dataset_name = "ids2018full"
     mocker.patch(
-        "nd00333_capstone.dataset.split.split.parse_args",
+        "nd00333.dataset.split.split.parse_args",
         return_value=mock_args(
             dataset_path=dataset_path,
             dataset_name=dataset_name,
@@ -52,7 +52,7 @@ def test_split_nondefault_args(mocker):
     test_size = 0.3
     target_label = "label"
     mocker.patch(
-        "nd00333_capstone.dataset.split.split.parse_args",
+        "nd00333.dataset.split.split.parse_args",
         return_value=mock_args(
             dataset_path=dataset_path,
             dataset_name=dataset_name,

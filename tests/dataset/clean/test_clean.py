@@ -5,7 +5,7 @@ import pandas as pd
 import pandas.testing
 import pytest
 
-from nd00333_capstone.dataset.clean import clean
+from nd00333.dataset.clean import clean
 
 
 def test_get_clean_df_remove_timestamp():
