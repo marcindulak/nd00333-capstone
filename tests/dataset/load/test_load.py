@@ -209,3 +209,31 @@ def test_get_df_from_directory_dataset_validate_fractions(dataset):
         else:
             rtol = 0.1
         assert np.isclose(result.loc[label], reference.loc[label], rtol=rtol, atol=0)
+
+
+def test_get_df_from_dataset_default_set_dataset_path():
+    directory = tests_utils.get_directory(
+        "dataset", pathlib.Path(__file__).stem, inspect.currentframe().f_code.co_name
+    )
+    filename = pathlib.Path(directory, "data.csv")
+    data = [["Benign"]]
+    columns = ["Label"]
+    _ = pd.DataFrame(data=data, columns=columns).to_csv(filename, index=False)
+    df = load.get_df_from_dataset(directory, "", dataset_is_remote=False)
+    assert list(df.columns) == ["Label"]
+    assert list(df.dtypes) == ["object"]
+    shutil.rmtree(directory)
+
+
+def test_get_df_from_dataset_default_set_dataset_name():
+    directory = tests_utils.get_directory(
+        "dataset", pathlib.Path(__file__).stem, inspect.currentframe().f_code.co_name
+    )
+    filename = pathlib.Path(directory, "data.csv")
+    data = [["Benign"]]
+    columns = ["Label"]
+    _ = pd.DataFrame(data=data, columns=columns).to_csv(filename, index=False)
+    df = load.get_df_from_dataset("", directory, dataset_is_remote=False)
+    assert list(df.columns) == ["Label"]
+    assert list(df.dtypes) == ["object"]
+    shutil.rmtree(directory)

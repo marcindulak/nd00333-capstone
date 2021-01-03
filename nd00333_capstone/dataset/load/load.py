@@ -1,6 +1,10 @@
 import glob
 import pandas as pd
+import pathlib
 
+from azureml.core.dataset import Dataset
+
+from nd00333_capstone import utils as package_utils
 
 DTYPE = {
     "Flow Duration": "int64",
@@ -52,3 +56,14 @@ def get_df_from_directory(directory, usecols=None, dtype=None):
         get_df_from_csv(csv, usecols=usecols, dtype=dtype)
         for csv in sorted(glob.glob(f"{directory}/*.csv"))
     ).reset_index(drop=True)
+
+
+def get_df_from_dataset(dataset_path, dataset_name, dataset_is_remote=False):
+    if dataset_is_remote:
+        workspace = package_utils.get_workspace()
+        df = Dataset.get_by_name(
+            workspace=workspace, name=dataset_name
+        ).to_pandas_dataframe()
+    else:
+        df = get_df_from_directory(pathlib.Path(dataset_path, dataset_name))
+    return df
