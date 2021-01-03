@@ -8,6 +8,7 @@ import pandas.testing
 import pytest
 
 from nd00333_capstone.dataset.register import register
+from nd00333_capstone import utils as package_utils
 from tests import utils as tests_utils
 
 
@@ -18,11 +19,11 @@ mock_args = tests_utils.get_mock_args(register.DEFAULT_ARGS)
 @pytest.fixture
 def mocker(mocker):
     mocker.patch(
-        "nd00333_capstone.dataset.register.register.get_workspace",
+        "nd00333_capstone.utils.get_workspace",
         return_value="mocker",
     )
     mocker.patch(
-        "nd00333_capstone.dataset.register.register.get_default_datastore",
+        "nd00333_capstone.utils.get_default_datastore",
         return_value=mock_datastore(name="mocker"),
     )
     return mocker

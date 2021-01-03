@@ -3,7 +3,7 @@ import glob
 import os
 import pathlib
 
-from azureml.core import Workspace
+
 from azureml.data import DataType
 from azureml.data.datapath import DataPath
 from azureml.data.dataset_factory import TabularDatasetFactory
@@ -51,14 +51,14 @@ def parse_args():
     )
     parser.add_argument(
         "--dataset-overwrite",
-        required=False,        
+        required=False,
         action="store_true",
         default=DEFAULT_ARGS["--dataset-overwrite"],
         help="Whether to overwrite the remote dataset",
     )
     parser.add_argument(
         "--dry-run",
-        required=False,        
+        required=False,
         action="store_true",
         default=DEFAULT_ARGS["--dry-run"],
         help="Dry run",
@@ -66,24 +66,13 @@ def parse_args():
     return parser.parse_args()
 
 
-def get_workspace():
-    dworkspace = Workspace.from_config()
-    workspace = "ws"
-    return workspace
-
-
-def get_default_datastore(workspace):
-    datastore = workspace.get_default_datastore()
-    return datastore
-
-
 def upload_files(datastore, **kwargs):
     return datastore.upload_files(**kwargs)
 
 
 def datastore_upload_files(args):
-    ws = get_workspace()
-    datastore = get_default_datastore(ws)
+    ws = package_utils.get_workspace()
+    datastore = package_utils.get_default_datastore(ws)
 
     directory = pathlib.Path(args.dataset_path, args.dataset_name)
     if not os.path.exists(directory):
@@ -116,8 +105,8 @@ def datastore_upload_files(args):
 
 
 def dataset_register(args):
-    ws = get_workspace()
-    datastore = get_default_datastore(ws)
+    ws = package_utils.get_workspace()
+    datastore = package_utils.get_default_datastore(ws)
 
     datastore_path, target_path = datastore_upload_files(args)
 
