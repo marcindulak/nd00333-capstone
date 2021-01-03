@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-def get_clean_df(df, usecols=None, display_max_rows=100, verbose=False):
+def get_clean_df(df, usecols=None, display_max_rows=100, verbose=0):
     """
     Read from df and return a cleaned DataFrame
     """
@@ -13,12 +13,13 @@ def get_clean_df(df, usecols=None, display_max_rows=100, verbose=False):
     """Make a dataFrame copy"""
     df = df.copy(deep=True)
 
-    if verbose:
-        print(f"DataFrame {df} before cleaning")
+    if verbose > 0:
+        print(f"DataFrame before cleaning")
         with pd.option_context(
             "display.max_rows", display_max_rows, "display.max_columns", None
         ):
-            display(df.head().transpose())
+            if verbose > 1:
+                display(df.head().transpose())
             display(df.describe().transpose())
 
     columns = df.columns.tolist()
@@ -43,9 +44,9 @@ def get_clean_df(df, usecols=None, display_max_rows=100, verbose=False):
             df[column] = pd.to_numeric(df[column], errors="coerce")
             df[column].values[df[column].values < -1] = 0
 
-    if verbose:
+    if verbose > 1:
         print(
-            f"DataFrame {df} after feature removal, conversion to np.nan and replacing with negative values with 0"
+            f"DataFrame after feature removal, conversion to np.nan and replacing with negative values with 0"
         )
         with pd.option_context(
             "display.max_rows", display_max_rows, "display.max_columns", None
@@ -56,30 +57,30 @@ def get_clean_df(df, usecols=None, display_max_rows=100, verbose=False):
     """Convert all columns to_numeric, replacing errors with nan"""
     for column in sorted(df.columns.tolist()):
         if column not in ["Label"]:
-            if verbose:
+            if verbose > 1:
                 print(f"Converting column {column} to_numeric")
             df[column] = pd.to_numeric(df[column], errors="coerce")
 
-    if verbose:
-        print(f"DataFrame {df} after to_numeric")
+    if verbose > 1:
+        print(f"DataFrame after to_numeric")
         with pd.option_context(
             "display.max_rows", display_max_rows, "display.max_columns", None
         ):
             display(df.head().transpose())
             display(df.describe().transpose())
 
-    if verbose:
-        print(f"DataFrame {df} missing values before their removal")
+    if verbose > 1:
+        print(f"DataFrame missing values before their removal")
         with pd.option_context(
             "display.max_rows", display_max_rows, "display.max_columns", None
         ):
             display(df[df.isnull().any(axis=1)].describe().transpose())
 
     """Print the original DataFrame distribution of Labels"""
-    if verbose:
+    if verbose > 0:
         df_shape_original = df.shape
         label = (
-            f"DataFrame {df} before missing values removal, shape {df_shape_original}"
+            f"DataFrame before missing values removal, shape {df_shape_original}"
         )
         print(label)
         df.groupby(["Label"]).size().plot(kind="bar", label=label)
@@ -93,10 +94,10 @@ def get_clean_df(df, usecols=None, display_max_rows=100, verbose=False):
         )
         plt.show()
 
-    if verbose:
+    if verbose > 0:
         df_shape_only_missing_values = df[df.isnull().any(axis=1)].shape
         if df_shape_only_missing_values[0] > 0:
-            label = f"DataFrame {df} only missing values, shape {df_shape_only_missing_values}"
+            label = f"DataFrame only missing values, shape {df_shape_only_missing_values}"
             print(label)
             df[df.isnull().any(axis=1)].groupby(["Label"]).size().plot(
                 kind="bar", label=label
@@ -118,7 +119,7 @@ def get_clean_df(df, usecols=None, display_max_rows=100, verbose=False):
             plt.show()
         else:
             print(
-                f"DataFrame {df} has no missing values, shape {df_shape_only_missing_values}"
+                f"DataFrame has no missing values, shape {df_shape_only_missing_values}"
             )
 
     """Remove rows with missing values"""
@@ -129,23 +130,13 @@ def get_clean_df(df, usecols=None, display_max_rows=100, verbose=False):
     """Convert all numeric features to integers"""
     for column in sorted(df.columns.tolist()):
         if column not in ["Label"]:
-            if verbose:
+            if verbose > 1:
                 print(f"Converting column {column} round(0).astype(int)")
             df[column] = df[column].round(0).astype(int)
 
-    if verbose:
-        df_shape_after_missing_values_removal = df.shape
-        print(
-            f"DataFrame {df} after missing values removal, shape {df_shape_after_missing_values_removal}"
-        )
-        with pd.option_context(
-            "display.max_rows", display_max_rows, "display.max_columns", None
-        ):
-            display(df.head().transpose())
-            display(df.describe().transpose())
-
-    if verbose:
-        lebel = f"DataFrame {df} after missing values removal, shape {df_shape_after_missing_values_removal}"
+    df_shape_after_missing_values_removal = df.shape
+    if verbose > 0:
+        lebel = f"DataFrame after missing values removal, shape {df_shape_after_missing_values_removal}"
         print(label)
         df.groupby(["Label"]).size().plot(kind="bar", label=label)
         plt.show()
@@ -160,12 +151,24 @@ def get_clean_df(df, usecols=None, display_max_rows=100, verbose=False):
         )
         plt.show()
 
+    if verbose > 0:
+        print(
+            f"DataFrame after missing values removal, shape {df_shape_after_missing_values_removal}"
+        )
+        with pd.option_context(
+            "display.max_rows", display_max_rows, "display.max_columns", None
+        ):
+            if verbose > 1:
+                display(df.head().transpose())
+            display(df.describe().transpose())
+
     return df
 
 
 def get_feature_list(data, tolerance=0.0001, sample_fraction=None):
     """
-    Return list of features which, when added one-by-one improve the metrics by tolerance
+    Return list of features which, when added one-by-one improve the metrics by tolerance.
+    Based on https://github.com/solegalli/feature-selection-for-machine-learning/tree/master/11-Hybrid-methods
     """
 
     """
