@@ -41,7 +41,6 @@ dependencies:
   - black=20.8b1
   - python-json-logger=2.0
   - pytest-mock=3.4
-  - pyjwt=1.7
   - pip:
     - azureml-sdk==1.16.0
     - azureml-defaults==1.16.0
