@@ -70,3 +70,11 @@ def test_datastore_upload_files_overwrite_false_succeed(mocker):
     assert len(datastore_path) == 1
     assert target_path == f"{args.dataset_name}_{args.dataset_version}"
     shutil.rmtree(directory)
+
+
+def test_get_default_dataset_name(mocker):
+    dataset_type = "this"
+    default_dataset_name = (
+        f"{register.DATASET_NAME}{dataset_type}{register.DATASET_VERSION}"
+    )
+    assert register.get_default_dataset_name(dataset_type) == default_dataset_name

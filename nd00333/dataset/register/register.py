@@ -4,6 +4,7 @@ import os
 import pathlib
 
 
+from azureml.core.dataset import Dataset
 from azureml.data import DataType
 from azureml.data.datapath import DataPath
 from azureml.data.dataset_factory import TabularDatasetFactory
@@ -13,15 +14,15 @@ from nd00333 import utils as package_utils
 
 logger = package_utils.get_logger()
 
-VERSION = "1"
-NAME = "ids2018"
+DATASET_NAME = "ids2018"
+DATASET_VERSION = "1"
 
 DTYPE_MAP = {"int64": DataType.to_long(), "object": DataType.to_string()}
 DATA_TYPES = {feature: DTYPE_MAP[dtype] for feature, dtype in load.DTYPE.items()}
 DEFAULT_ARGS = {
     "--dataset-path": "datasets",
-    "--dataset-name": NAME,
-    "--dataset-version": VERSION,
+    "--dataset-name": DATASET_NAME,
+    "--dataset-version": DATASET_VERSION,
     "--dataset-overwrite": False,
     "--dry-run": False,
 }
@@ -105,7 +106,7 @@ def datastore_upload_files(args):
     return datastore_path, target_path
 
 
-def dataset_register(args):
+def dataset_register_tabular(args):
     ws = package_utils.get_workspace()
     datastore = package_utils.get_default_datastore(ws)
 
@@ -122,6 +123,29 @@ def dataset_register(args):
     logger.info(msg="tabular.register", extra={"kwargs": kwargs})
     if not args.dry_run:
         dataset = tabular.register(**kwargs)
+
+
+def dataset_register_file(args):
+    ws = package_utils.get_workspace()
+    datastore = package_utils.get_default_datastore(ws)
+
+    datastore_path, target_path = datastore_upload_files(args)
+
+    logger.info(msg="Dataset.File.from_files", extra={"datastore_path": datastore_path})
+    if not args.dry_run:
+        file_dataset = Dataset.File.from_files(path=datastore_path)
+
+    kwargs = {"workspace": ws, "name": target_path, "create_new_version": False}
+    logger.info(msg="file_dataset.register", extra={"kwargs": kwargs})
+    if not args.dry_run:
+        dataset = file_dataset.register(**kwargs)
+
+
+dataset_register = dataset_register_file
+
+
+def get_default_dataset_name(dataset_type):
+    return f"{DATASET_NAME}{dataset_type}{DATASET_VERSION}"
 
 
 if __name__ == "__main__":
