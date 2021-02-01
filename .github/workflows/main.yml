@@ -57,8 +57,8 @@ jobs:
       - name: download the ids2018test_1 dataset onto datasets/ids2018test
         shell: bash
         run: |
-          az ml datastore download --workspace-name nd00333-capstone --name workspaceblobstore \
-          --prefix ids2018test_1 --target-path . --verbose
+          az ml datastore download --workspace-name nd00333-capstone --resource-group nd00333-capstone \
+          --name workspaceblobstore --prefix ids2018test_1 --target-path . --verbose
           mv ids2018test_1 datasets/ids2018test
 
       - name: . venv/bin/activate&& python -m pytest -v
