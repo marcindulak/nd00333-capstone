@@ -73,6 +73,6 @@ def test_datastore_upload_files_overwrite_false_succeed(mocker):
 def test_get_default_dataset_name():
     dataset_type = "this"
     default_dataset_name = (
-        f"{config.DATASET_NAME}{dataset_type}{config.DATASET_VERSION}"
+        f"{config.DATASET_NAME}{dataset_type}_{config.DATASET_VERSION}"
     )
     assert config.get_default_dataset_name(dataset_type) == default_dataset_name
