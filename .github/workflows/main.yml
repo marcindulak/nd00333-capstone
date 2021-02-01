@@ -13,7 +13,7 @@ jobs:
 
       - name: sudo apt-get update && sudo apt-get install -y python3-virtualenv
         run: sudo apt-get update && sudo apt-get install -y python3-virtualenv
-        
+
       - name: virtualenv venv --python=python3
         run: virtualenv venv --python=python3
 
@@ -40,6 +40,10 @@ jobs:
         uses: Azure/aml-compute@0bafcdd641d5c307037bd4bea82d303f17787541
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: echo $CONFIG_JSON > config.json
+        run: echo $CONFIG_JSON > config.json
+          CONFIG_JSON: ${{ secrets.CONFIG_JSON }}
 
       - name: aml_run
         id: aml_run
