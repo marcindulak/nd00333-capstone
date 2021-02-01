@@ -1,0 +1,61 @@
+name: main
+
+on:
+  push:
+
+jobs:
+  main:
+    name: main
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: virtualenv venv --python=python3
+        run: virtualenv venv --python=python3
+
+      - name: . venv/bin/activate&& pip install -r .github/workflows/requirements.txt
+        run: . venv/bin/activate&& pip install -r .github/workflows/requirements.txt
+
+      - name: . venv/bin/activate&& pylint ./nd00333 || pylint-exit $?
+        run: . venv/bin/activate&& pylint ./nd00333 || pylint-exit $?
+
+      - name: . venv/bin/activate&& pylint ./tests || pylint-exit $?
+        run: . venv/bin/activate&& pylint ./tests || pylint-exit $?
+
+      - name: . venv/bin/activate&& python -m pytest -v
+        run: . venv/bin/activate&& python -m pytest -v
+
+      - name: aml_workspace
+        id: aml_workspace
+        uses: Azure/aml-workspace@v1
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: aml_compute
+        id: aml_compute
+        uses: Azure/aml-compute@v1
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: aml_run
+        id: aml_run
+        uses: Azure/aml-run@v1
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: aml_registermodel
+        id: aml_registermodel
+        uses: Azure/aml-registermodel@v1
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          run_id: ${{ steps.aml_run.outputs.run_id }}
+          experiment_name: ${{ steps.aml_run.outputs.experiment_name }}
+
+      - name: aml_deploy
+        id: aml_deploy
+        uses: Azure/aml-deploy@v1
+        with:
+          azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          model_name: ${{ steps.aml_registermodel.outputs.model_name }}
+          model_version: ${{ steps.aml_registermodel.outputs.model_version }}
