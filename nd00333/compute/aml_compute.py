@@ -22,7 +22,7 @@ def parse_args():
         "--cluster-name",
         required=False,
         type=str,
-        default=os.environ.get("AML_COMPUTE_CLUSTER_NAME", "nd00333-capstone"),
+        default=os.environ.get("AML_COMPUTE_CLUSTER_NAME", None),
         help="The name of the cluster. The default is to use the trimmed workspace name",
     )
     parser.add_argument(
