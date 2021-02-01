@@ -1,0 +1,13 @@
+{
+    "jupyter.jupyterServerType": "remote",
+    "files.watcherExclude": {
+        "**/.git": true,
+	"**/node_modules": true,
+	"**/venv": true,
+	"**/__pycache__": true,
+	"datasets": true,
+	"models": true,
+	"**/old": true,
+	"**/temp": true
+    }
+}
