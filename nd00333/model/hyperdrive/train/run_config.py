@@ -1,9 +1,11 @@
 """
 HyperDrive config
 """
-import os
+
 import functools
 import operator
+import os
+import sys
 
 from azureml.core import Environment
 from azureml.core import ComputeTarget
@@ -17,8 +19,15 @@ from azureml.train.hyperdrive.sampling import GridParameterSampling
 from azureml.train.hyperdrive.runconfig import HyperDriveConfig
 from azureml.train.hyperdrive.parameter_expressions import choice
 
-#from nd00333.dataset.register import register
-#from nd00333.compute import aml_compute
+# https://github.com/Azure/aml-run fails to load the project modules despite
+# https://github.com/Azure/aml-run/blob/41d214555e9fe3a2fb7c2b9ce8ac489e555063ed/code/utils.py#L113
+GITHUB_WORKSPACE = os.environ.get("GITHUB_WORKSPACE", None)
+if GITHUB_WORKSPACE:
+    sys.path.insert(0, GITHUB_WORKSPACE)
+    print("Prepended {GITHUB_WORKSPACE} to sys.path")
+
+from nd00333.dataset.register import register
+from nd00333.compute import aml_compute
 from nd00333 import utils as package_utils
 
 logger = package_utils.get_logger()
@@ -40,9 +49,9 @@ def get_environment():
 
 
 def main(
-    workspace="nd00333-capstone",#package_utils.get_workspace(),
-    dataset_train_name="train",#register.get_default_dataset_name("train"),
-    dataset_validate_name="validate",#register.get_default_dataset_name("validate"),
+    workspace=package_utils.get_workspace(),
+    dataset_train_name=register.get_default_dataset_name("train"),
+    dataset_validate_name=rregister.get_default_dataset_name("validate"),
 ):
     """
     Return HyperDriveConfig
