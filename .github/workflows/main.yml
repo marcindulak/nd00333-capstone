@@ -46,6 +46,8 @@ jobs:
         uses: Azure/aml-run@e1efa559107a525e0ef78dd3beb38464b60cf749
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+        env:
+          PYTHONPATH: ${{ "." }}
 
       - name: aml_registermodel
         id: aml_registermodel
