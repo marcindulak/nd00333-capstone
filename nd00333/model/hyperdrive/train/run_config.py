@@ -52,7 +52,7 @@ def main(
     #    workspace=workspace,
     #    name="nd00333-capstone",
     # )
-    raise RuntimeError(f"inside of main {os.path.environ['GITHUB_WORKSPACE']}")
+    raise RuntimeError(f"inside of main {os.environ['GITHUB_WORKSPACE']}")
     args = aml_compute.parse_args()
     args.cluster_max_nodes = cluster_max_nodes
     args.cluster_sku = "Standard_D2_v3"
