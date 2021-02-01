@@ -40,6 +40,13 @@ def parse_args():
         help="The maximum number of nodes in the cluster",
     )
     parser.add_argument(
+        "--cluster-vm-priority",
+        required=False,
+        type=str,
+        default="lowpriority",
+        help="The type of the compute instance: dedicated or lowpriority",
+    )
+    parser.add_argument(
         "--cluster-sku",
         required=False,
         type=str,
@@ -68,7 +75,7 @@ def main(args):
     except ComputeTargetException:
         compute_config = AmlCompute.provisioning_configuration(
             vm_size=args.cluster_sku,
-            vm_priority="lowpriority",
+            vm_priority=args.cluster_vm_priority,
             idle_seconds_before_scaledown=40 * 60,
             min_nodes=args.cluster_min_nodes,
             max_nodes=args.cluster_max_nodes,

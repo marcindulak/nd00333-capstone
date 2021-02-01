@@ -60,7 +60,7 @@ def main(
     args = aml_compute.parse_args()
     args.cluster_max_nodes = cluster_max_nodes
     args.cluster_sku = "Standard_D2_v3"
-    args.vm_priority = "dedicated"
+    args.cluster_vm_priority = "dedicated"
     compute_target = aml_compute.main(args)
     logger.info(msg="main", extra={"compute_target": compute_target.serialize()})
 
