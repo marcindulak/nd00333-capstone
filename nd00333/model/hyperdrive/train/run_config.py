@@ -6,6 +6,7 @@ import functools
 import operator
 
 from azureml.core import Environment
+from azureml.core import ComputeTarget
 from azureml.core.dataset import Dataset
 from azureml.core.runconfig import RunConfiguration
 from azureml.core.script_run_config import ScriptRunConfig
@@ -16,11 +17,11 @@ from azureml.train.hyperdrive.sampling import GridParameterSampling
 from azureml.train.hyperdrive.runconfig import HyperDriveConfig
 from azureml.train.hyperdrive.parameter_expressions import choice
 
-from nd00333.dataset.register import register
-from nd00333.compute import aml_compute
-from nd00333 import utils as package_utils
+#from nd00333.dataset.register import register
+#from nd00333.compute import aml_compute
+#from nd00333 import utils as package_utils
 
-logger = package_utils.get_logger()
+#logger = package_utils.get_logger()
 
 
 def get_environment():
@@ -40,26 +41,33 @@ def get_environment():
 
 def main(
     workspace=package_utils.get_workspace(),
-    dataset_train_name=register.get_default_dataset_name("train"),
-    dataset_validate_name=register.get_default_dataset_name("validate"),
+    #dataset_train_name=register.get_default_dataset_name("train"),
+    #dataset_validate_name=register.get_default_dataset_name("validate"),
+    dataset_train_name="train",
+    dataset_validate_name="validate",
 ):
     """
     Return HyperDriveConfig
     """
     cluster_max_nodes = 8
-    args = aml_compute.parse_args()
-    args.cluster_max_nodes = cluster_max_nodes
-    args.cluster_sku = "Standard_D2_v3"
-    compute_target = aml_compute.main(args)
-    logger.info(msg="main", extra={"compute_target": compute_target.serialize()})
+
+    compute_target = ComputeTarget(
+        workspace=workspace,
+        name="nd00333-capstone",
+    )
+    #args = aml_compute.parse_args()
+    #args.cluster_max_nodes = cluster_max_nodes
+    #args.cluster_sku = "Standard_D2_v3"
+    #compute_target = aml_compute.main(args)
+    #logger.info(msg="main", extra={"compute_target": compute_target.serialize()})
 
     environment = get_environment()
-    logger.info(msg="main", extra={"environment": environment})
+    #logger.info(msg="main", extra={"environment": environment})
 
     run_config = RunConfiguration()
     run_config.target = compute_target
     run_config.environment = environment
-    logger.info(msg="main", extra={"run_config": run_config})
+    #logger.info(msg="main", extra={"run_config": run_config})
 
     parameter_space = {
         "--hyperparameter-n_estimators": choice(range(15, 20 + 1, 5)),
