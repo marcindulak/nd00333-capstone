@@ -1,5 +1,9 @@
 name: main
 
+env:
+  AZ_CLI_VERSION: 2.18.0
+  AZ_CLI_ML_VERSION: 1.21.0
+
 on:
   push:
 
@@ -25,6 +29,37 @@ jobs:
 
       - name: . venv/bin/activate&& pylint ./tests || pylint-exit $?
         run: . venv/bin/activate&& pylint ./tests || pylint-exit $?
+
+      - name: install az-cli
+        shell: bash
+        run: |
+          curl -sO https://packages.microsoft.com/repos/azure-cli/pool/main/a/azure-cli/azure-cli_2.18.0-1~focal_all.deb \
+          && dpkg -i azure-cli_*.deb \
+          && az --version \
+          && rm -f azure-cli_*.deb
+
+      - name: az version --query '"azure-cli"' | grep ${{ env.AZ_CLI_VERSION }}
+        run: az version --query '"azure-cli"' | grep ${{ env.AZ_CLI_VERSION }}
+
+      - name: install az-cli-ml
+        run: az extension add --name azure-cli-ml --version ${{ env.AZ_CLI_ML_VERSION }} --debug
+
+      - name: az version --query '"extensions"."azure-cli-ml"' | grep ${{ env.AZ_CLI_ML_VERSION }}
+        run: az version --query '"extensions"."azure-cli-ml"' | grep ${{ env.AZ_CLI_ML_VERSION }}
+
+      - name: az --version
+        run: az --version
+
+      - uses: azure/login@5de298368f2b3dece96ed1ec81a2e2fb57776cb4
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: download the ids2018test_1 dataset onto datasets/ids2018test
+        shell: bash
+        run: |
+          az ml datastore download --workspace-name nd00333-capstone --name workspaceblobstore \
+          --prefix ids2018test_1 --target-path . --verbose
+          mv ids2018test_1 datasets/ids2018test
 
       - name: . venv/bin/activate&& python -m pytest -v
         run: . venv/bin/activate&& python -m pytest -v
