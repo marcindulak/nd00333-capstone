@@ -14,8 +14,8 @@ from azureml.data.datapath import DataPath
 from azureml.data.dataset_factory import TabularDatasetFactory
 
 from nd00333.dataset.load import load
+from nd00333.dataset.register import config
 from nd00333 import utils as package_utils
-from nd00333.dataset.register.config import get_default_dataset_name
 
 logger = package_utils.get_logger()
 
@@ -23,8 +23,8 @@ DTYPE_MAP = {"int64": DataType.to_long(), "object": DataType.to_string()}
 DATA_TYPES = {feature: DTYPE_MAP[dtype] for feature, dtype in load.DTYPE.items()}
 DEFAULT_ARGS = {
     "--dataset-path": "datasets",
-    "--dataset-name": DATASET_NAME,
-    "--dataset-version": DATASET_VERSION,
+    "--dataset-name": config.DATASET_NAME,
+    "--dataset-version": config.DATASET_VERSION,
     "--dataset-type": "file",
     "--dataset-overwrite": False,
     "--dry-run": False,
