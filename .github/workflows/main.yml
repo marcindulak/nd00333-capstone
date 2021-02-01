@@ -47,7 +47,7 @@ jobs:
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
         env:
-          PYTHONPATH: "."
+          PYTHONPATH: "/github/workspace"
 
       - name: aml_registermodel
         id: aml_registermodel
