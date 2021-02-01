@@ -4,7 +4,7 @@ channels:
 #- nodefaults  # this will fail if packages missing in conda-forge
 dependencies:
   - python=3.7
-  - pip=20.1.1
+  - pip=21.0
   - wheel=0.35
   - psutil=5.7
   - shap=0.34
@@ -22,18 +22,19 @@ dependencies:
   - jmespath=0.10
   - click=7.1
   - statsmodels=0.10
+  - idna=2.10
   - isodate=0.6
   - protobuf=3.13
   - ruamel.yaml=0.16
   - fire=0.3
-  - flask=1.1
+  - flask=1.0
   - flask-cors=3.0
   - gevent=20.9
   - cython=0.29
   - pyjwt=1.7
   - boto=2.49
-  - boto3=1.16
-  - botocore=1.19
+  - boto3=1.15
+  - botocore=1.18
   - tqdm=4.42
   - py-xgboost=0.90
   - fbprophet=0.6
@@ -41,13 +42,15 @@ dependencies:
   - black=20.8b1
   - python-json-logger=2.0
   - pytest-mock=3.4
+  - pyopenssl=19.1
+  - pylint=2.6.0
   - pip:
-    - azureml-sdk==1.16.0
-    - azureml-defaults==1.16.0
-    - azureml-interpret==1.16.0
-    - azureml-opendatasets==1.16.0
-    - azureml-train-automl==1.16.0
-    - azureml-widgets==1.16.0
+    - pylint-exit==1.2.0
+    - azureml-sdk==1.21.0
+    - azureml-defaults==1.21.0
+    - azureml-interpret==1.21.0
+    - azureml-opendatasets==1.21.0
+    - azureml-train-automl==1.21.0
+    - azureml-widgets==1.21.0
     - inference-schema==1.1.0
     - onnx==1.7.0
-
