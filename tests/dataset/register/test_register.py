@@ -2,17 +2,14 @@ import collections
 import pathlib
 import shutil
 import inspect
-import numpy as np
 import pandas as pd
-import pandas.testing
 import pytest
 
 from nd00333.dataset.register import register
-from nd00333 import utils as package_utils
 from tests import utils as tests_utils
 
 
-mock_datastore = collections.namedtuple("datastore", "name")
+MockDatastore = collections.namedtuple("datastore", "name")
 mock_args = tests_utils.get_mock_args(register.DEFAULT_ARGS)
 
 
@@ -24,7 +21,7 @@ def mocker(mocker):
     )
     mocker.patch(
         "nd00333.utils.get_default_datastore",
-        return_value=mock_datastore(name="mocker"),
+        return_value=MockDatastore(name="mocker"),
     )
     return mocker
 
@@ -72,7 +69,7 @@ def test_datastore_upload_files_overwrite_false_succeed(mocker):
     shutil.rmtree(directory)
 
 
-def test_get_default_dataset_name(mocker):
+def test_get_default_dataset_name():
     dataset_type = "this"
     default_dataset_name = (
         f"{register.DATASET_NAME}{dataset_type}{register.DATASET_VERSION}"

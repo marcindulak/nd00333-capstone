@@ -1,9 +1,6 @@
-import pathlib
-import inspect
 import numpy as np
 import pandas as pd
 import pandas.testing
-import pytest
 
 from nd00333.dataset.clean import clean
 

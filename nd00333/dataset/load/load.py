@@ -1,6 +1,10 @@
+"""
+Load the dataset
+"""
+
 import glob
-import pandas as pd
 import pathlib
+import pandas as pd
 
 from azureml.core.dataset import Dataset
 
@@ -48,10 +52,17 @@ LABEL_TO_INDEX = {
 
 
 def get_df_from_csv(csv, usecols=None, dtype=None):
+    """
+    Return a DataFrame by reading the dataset from a single csv file
+    """
     return pd.read_csv(csv, usecols=usecols, dtype=dtype)
 
 
 def get_df_from_directory(directory, usecols=None, dtype=None):
+    """
+    Return a DataFrame by reading the dataset from a
+    directory containing csv files
+    """
     return pd.concat(
         get_df_from_csv(csv, usecols=usecols, dtype=dtype)
         for csv in sorted(glob.glob(f"{directory}/*.csv"))
@@ -59,6 +70,10 @@ def get_df_from_directory(directory, usecols=None, dtype=None):
 
 
 def get_df_from_dataset(dataset_path, dataset_name, dataset_is_remote=False):
+    """
+    Return a DataFrame by reading the dataset from either a
+    directory containing csv files or Azure Dataset
+    """
     if dataset_is_remote:
         workspace = package_utils.get_workspace()
         df = Dataset.get_by_name(

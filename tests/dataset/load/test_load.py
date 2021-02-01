@@ -3,7 +3,6 @@ import shutil
 import inspect
 import numpy as np
 import pandas as pd
-import pandas.testing
 import pytest
 
 from nd00333.dataset.load import load
@@ -101,8 +100,7 @@ def dataset():
         )
         if directory.exists():
             return load.get_df_from_directory(directory)
-        else:
-            pytest.skip(f"The dataset directory {directory} does not exist")
+        pytest.skip(f"The dataset directory {directory} does not exist")
 
     return inner
 

@@ -2,8 +2,6 @@ import pathlib
 import shutil
 import inspect
 import pandas as pd
-import pandas.testing
-import pytest
 
 from nd00333.dataset.split import split
 from tests import utils as tests_utils
@@ -31,10 +29,9 @@ def test_split_default_args(mocker):
     data = list(zip(range(20), range(20)))  # 20x2 list of tuples
     columns = ["value", "target"]
     _ = pd.DataFrame(data=data, columns=columns).to_csv(filename, index=False)
-    args = split.parse_args()
-    X_train, X_test, y_train, y_test = split.split(split.parse_args())
-    assert X_train.shape == (10, 1)
-    assert X_test.shape == (10, 1)
+    x_train, x_test, y_train, y_test = split.split(split.parse_args())
+    assert x_train.shape == (10, 1)
+    assert x_test.shape == (10, 1)
     assert y_train.shape == (10,)
     assert y_test.shape == (10,)
     shutil.rmtree(directory)
@@ -69,10 +66,9 @@ def test_split_nondefault_args(mocker):
     data = list(zip(range(20), range(20)))  # 20x2 list of tuples
     columns = ["value", "label"]
     _ = pd.DataFrame(data=data, columns=columns).to_csv(filename, index=False)
-    args = split.parse_args()
-    X_train, X_test, y_train, y_test = split.split(split.parse_args())
-    assert X_train.shape == (7, 1)
-    assert X_test.shape == (3, 1)
+    x_train, x_test, y_train, y_test = split.split(split.parse_args())
+    assert x_train.shape == (7, 1)
+    assert x_test.shape == (3, 1)
     assert y_train.shape == (7,)
     assert y_test.shape == (3,)
     shutil.rmtree(directory)

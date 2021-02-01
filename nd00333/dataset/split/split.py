@@ -1,6 +1,9 @@
+"""
+Split the dataset
+"""
+
 import argparse
 import pathlib
-import numpy as np
 import pandas as pd
 
 from sklearn.model_selection import train_test_split
@@ -24,6 +27,9 @@ DEFAULT_ARGS = {
 
 
 def parse_args():
+    """
+    Parse arguments
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--dataset-path",
@@ -92,7 +98,9 @@ def parse_args():
 
 
 def split(args):
-
+    """
+    Return the dataset split into two subsets
+    """
     directory = pathlib.Path(args.dataset_path, args.dataset_name)
     if not directory.exists():
         msg = f"The dataset directory {directory} does not exist"
@@ -106,30 +114,29 @@ def split(args):
             frac=args.sample_fraction, replace=False, random_state=args.random_seed
         )
 
-    X_train, X_test, y_train, y_test = train_test_split(
+    x_train, x_test, y_train, y_test = train_test_split(
         df.drop(labels=[args.target_label], axis=1),
         df[args.target_label],
         test_size=args.test_size,
         random_state=args.random_seed,
     )
 
-    def save_to_disk(X, y, name):
+    def save_to_disk(x, y, name):
         if name == "train":
             directory = pathlib.Path(args.dataset_path, f"{args.dataset_name_train}")
         else:
             directory = pathlib.Path(args.dataset_path, f"{args.dataset_name_test}")
         directory.mkdir(parents=False, exist_ok=False)
-        pd.concat([X, y], axis=1).to_csv(
+        pd.concat([x, y], axis=1).to_csv(
             pathlib.Path(directory, "data.csv"), index=False
         )
 
     if args.save_to_disk:
-        save_to_disk(X_train, y_train, "train")
-        save_to_disk(X_test, y_test, "test")
+        save_to_disk(x_train, y_train, "train")
+        save_to_disk(x_test, y_test, "test")
 
-    return X_train, X_test, y_train, y_test
+    return x_train, x_test, y_train, y_test
 
 
 if __name__ == "__main__":
-    args = parse_args()
-    _, _, _, _ = split(args)
+    _, _, _, _ = split(parse_args())
