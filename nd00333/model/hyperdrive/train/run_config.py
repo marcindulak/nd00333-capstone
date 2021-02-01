@@ -24,7 +24,7 @@ from azureml.train.hyperdrive.parameter_expressions import choice
 REPOSITORY_ROOT = os.environ.get("REPOSITORY_ROOT", None)
 if REPOSITORY_ROOT:
     sys.path.insert(0, REPOSITORY_ROOT)
-    print("Prepended {REPOSITORY_ROOT} to sys.path")
+    print(f"Prepended REPOSITORY_ROOT {REPOSITORY_ROOT} to sys.path")
 
 from nd00333.dataset.register import config
 from nd00333.compute import aml_compute
