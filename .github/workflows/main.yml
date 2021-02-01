@@ -31,25 +31,25 @@ jobs:
 
       - name: aml_workspace
         id: aml_workspace
-        uses: Azure/aml-workspace@v1
+        uses: Azure/aml-workspace@cdf55f1e593b02923a1a33f468c410f1fd6da818
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: aml_compute
         id: aml_compute
-        uses: Azure/aml-compute@v1
+        uses: Azure/aml-compute@0bafcdd641d5c307037bd4bea82d303f17787541
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: aml_run
         id: aml_run
-        uses: Azure/aml-run@v1
+        uses: Azure/aml-run@e1efa559107a525e0ef78dd3beb38464b60cf749
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: aml_registermodel
         id: aml_registermodel
-        uses: Azure/aml-registermodel@v1
+        uses: Azure/aml-registermodel@b630dde3715e43d48664e536a0af1c2fefee1b0a
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           run_id: ${{ steps.aml_run.outputs.run_id }}
@@ -57,7 +57,7 @@ jobs:
 
       - name: aml_deploy
         id: aml_deploy
-        uses: Azure/aml-deploy@v1
+        uses: Azure/aml-deploy@28bd9f37ba5e967a2fcfdee3b04e4f11c5dbfbd4
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           model_name: ${{ steps.aml_registermodel.outputs.model_name }}
