@@ -11,6 +11,7 @@ venv
 !/models/hyperdrive/*.pkl
 tests/temp
 __pycache__
+.ipynb_checkpoints
 *.json
 *.log
 *~
