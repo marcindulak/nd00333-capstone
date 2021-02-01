@@ -56,16 +56,11 @@ def main(
     """
     Return HyperDriveConfig
     """
-    cluster_max_nodes = 8
-    # compute_target = ComputeTarget(
-    #    workspace=workspace,
-    #    name="nd00333-capstone",
-    # )
-    print(f"inside of main {os.environ['REPOSITORY_ROOT']}")
-    #xxx
+    cluster_max_nodes = 4
     args = aml_compute.parse_args()
     args.cluster_max_nodes = cluster_max_nodes
     args.cluster_sku = "Standard_D2_v3"
+    args.vm_priority = "dedicated"
     compute_target = aml_compute.main(args)
     logger.info(msg="main", extra={"compute_target": compute_target.serialize()})
 
