@@ -43,6 +43,7 @@ jobs:
 
       - name: echo $CONFIG_JSON > config.json
         run: echo $CONFIG_JSON > config.json
+        env:
           CONFIG_JSON: ${{ secrets.CONFIG_JSON }}
 
       - name: aml_run
