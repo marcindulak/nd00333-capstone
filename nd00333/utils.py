@@ -61,7 +61,11 @@ def get_workspace():
     """
     Get the AzureML workspace from an existing config.json
     """
-    workspace = Workspace.from_config(auth=get_sp_auth())
+    auth = auth=get_sp_auth()
+    if auth:
+        workspace = Workspace.from_config(auth=auth)
+    else:
+        workspace = Workspace.from_config()
     return workspace
 
 
