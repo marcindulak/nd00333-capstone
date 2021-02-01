@@ -14,7 +14,7 @@ logger = package_utils.get_logger()
 
 
 def main(
-    workspace=package_utils.get_workspace(),        
+    workspace=package_utils.get_workspace(),
     dataset_trainandvalidate_name=register.get_default_dataset_name("trainandvalidate"),
 ):
     """
