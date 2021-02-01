@@ -14,6 +14,7 @@ logger = package_utils.get_logger()
 
 
 def main(
+    workspace=package_utils.get_workspace(),        
     dataset_trainandvalidate_name=register.get_default_dataset_name("trainandvalidate"),
 ):
     """
@@ -25,8 +26,6 @@ def main(
     args.cluster_sku = "Standard_D12_v2"
     compute_target = aml_compute.main(args)
     logger.info(msg="main", extra={"compute_target": compute_target.serialize()})
-
-    workspace = package_utils.get_workspace()
 
     trainandvalidate = Dataset.get_by_name(
         workspace=workspace,
