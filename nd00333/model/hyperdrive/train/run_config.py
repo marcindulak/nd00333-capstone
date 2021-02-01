@@ -17,9 +17,9 @@ from azureml.train.hyperdrive.sampling import GridParameterSampling
 from azureml.train.hyperdrive.runconfig import HyperDriveConfig
 from azureml.train.hyperdrive.parameter_expressions import choice
 
-#from nd00333.dataset.register import register
-#from nd00333.compute import aml_compute
-#from nd00333 import utils as package_utils
+from nd00333.dataset.register import register
+from nd00333.compute import aml_compute
+from nd00333 import utils as package_utils
 
 #logger = package_utils.get_logger()
 
