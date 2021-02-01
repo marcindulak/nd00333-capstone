@@ -1,3 +1,7 @@
+"""
+Register a dataset in AzureML
+"""
+
 import argparse
 import glob
 import os
@@ -23,12 +27,16 @@ DEFAULT_ARGS = {
     "--dataset-path": "datasets",
     "--dataset-name": DATASET_NAME,
     "--dataset-version": DATASET_VERSION,
+    "--dataset-type": "file",
     "--dataset-overwrite": False,
     "--dry-run": False,
 }
 
 
 def parse_args():
+    """
+    Parse arguments
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--dataset-path",
@@ -52,6 +60,14 @@ def parse_args():
         help="Version of the dataset",
     )
     parser.add_argument(
+        "--dataset-type",
+        required=False,
+        type=str,
+        default=DEFAULT_ARGS["--dataset-type"],
+        choices=["file", "tabular"],
+        help="The type AzureML used to load the input dataset",
+    )
+    parser.add_argument(
         "--dataset-overwrite",
         required=False,
         action="store_true",
@@ -69,12 +85,18 @@ def parse_args():
 
 
 def upload_files(datastore, **kwargs):
+    """
+    Upload files to the datastore
+    """
     return datastore.upload_files(**kwargs)
 
 
 def datastore_upload_files(args):
-    ws = package_utils.get_workspace()
-    datastore = package_utils.get_default_datastore(ws)
+    """
+    Get the default datastore and upload files into it
+    """
+    workspace = package_utils.get_workspace()
+    datastore = package_utils.get_default_datastore(workspace)
 
     directory = pathlib.Path(args.dataset_path, args.dataset_name)
     if not os.path.exists(directory):
@@ -107,8 +129,10 @@ def datastore_upload_files(args):
 
 
 def dataset_register_tabular(args):
-    ws = package_utils.get_workspace()
-    datastore = package_utils.get_default_datastore(ws)
+    """
+    Register a tabular dataset into the workspace
+    """
+    workspace = package_utils.get_workspace()
 
     datastore_path, target_path = datastore_upload_files(args)
 
@@ -119,15 +143,17 @@ def dataset_register_tabular(args):
     if not args.dry_run:
         tabular = TabularDatasetFactory.from_delimited_files(**kwargs)
 
-    kwargs = {"workspace": ws, "name": target_path, "create_new_version": False}
+    kwargs = {"workspace": workspace, "name": target_path, "create_new_version": False}
     logger.info(msg="tabular.register", extra={"kwargs": kwargs})
     if not args.dry_run:
-        dataset = tabular.register(**kwargs)
+        _ = tabular.register(**kwargs)
 
 
 def dataset_register_file(args):
-    ws = package_utils.get_workspace()
-    datastore = package_utils.get_default_datastore(ws)
+    """
+    Register a file dataset into the workspace
+    """
+    workspace = package_utils.get_workspace()
 
     datastore_path, target_path = datastore_upload_files(args)
 
@@ -135,19 +161,32 @@ def dataset_register_file(args):
     if not args.dry_run:
         file_dataset = Dataset.File.from_files(path=datastore_path)
 
-    kwargs = {"workspace": ws, "name": target_path, "create_new_version": False}
+    kwargs = {"workspace": workspace, "name": target_path, "create_new_version": False}
     logger.info(msg="file_dataset.register", extra={"kwargs": kwargs})
     if not args.dry_run:
-        dataset = file_dataset.register(**kwargs)
+        _ = file_dataset.register(**kwargs)
 
 
-dataset_register = dataset_register_file
+def dataset_register(args):
+    """
+    Register either a file or tabular dataset in AzureML
+    """
+    if args.dataset_type == "file":
+        dataset_register_file(args)
+    elif args.dataset_type == "tabular":
+        dataset_register_tabular(args)
+    else:
+        msg = f"The dataset type {args.dataset_type} is not supported"
+        logger.exception(msg)
+        raise RuntimeError(msg)
 
 
 def get_default_dataset_name(dataset_type):
+    """
+    Return the default dataset name
+    """
     return f"{DATASET_NAME}{dataset_type}{DATASET_VERSION}"
 
 
 if __name__ == "__main__":
-    args = parse_args()
-    _ = dataset_register(args)
+    dataset_register(parse_args())
