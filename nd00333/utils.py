@@ -4,6 +4,7 @@ Common package utilities
 
 import json
 import logging
+import os
 
 try:
     from pythonjsonlogger import jsonlogger
@@ -12,6 +13,7 @@ except ModuleNotFoundError as exc:
     jsonlogger = None
 
 from azureml.core import Workspace
+from azureml.core.authentication import ServicePrincipalAuthentication
 from azureml.core.model import Model
 from azureml.train.automl.run import AutoMLRun
 from azureml.train.hyperdrive.run import HyperDriveRun
@@ -35,11 +37,31 @@ def get_logger():
     return logger
 
 
+def get_sp_auth():
+    """
+    Get authentication object of the service principal or None
+    """
+    input_azure_credentials = os.environ.get("INPUT_AZURE_CREDENTIALS", default="{}")
+    if not input_azure_credentials:
+        return None
+    try:
+        azure_credentials = json.loads(input_azure_credentials)
+    except json.JSONDecodeError:
+        raise ("Invalid INPUT_AZURE_CREDENTIALS")
+
+    return ServicePrincipalAuthentication(
+        tenant_id=azure_credentials.get("tenantId", ""),
+        service_principal_id=azure_credentials.get("clientId", ""),
+        service_principal_password=azure_credentials.get("clientSecret", ""),
+        cloud="AzureCloud",
+    )
+
+
 def get_workspace():
     """
     Get the AzureML workspace from an existing config.json
     """
-    workspace = Workspace.from_config()
+    workspace = Workspace.from_config(auth=get_sp_auth())
     return workspace
 
 
