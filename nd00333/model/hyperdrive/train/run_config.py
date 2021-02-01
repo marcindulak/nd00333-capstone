@@ -17,11 +17,11 @@ from azureml.train.hyperdrive.sampling import GridParameterSampling
 from azureml.train.hyperdrive.runconfig import HyperDriveConfig
 from azureml.train.hyperdrive.parameter_expressions import choice
 
-from nd00333.dataset.register import register
-from nd00333.compute import aml_compute
-from nd00333 import utils as package_utils
+#from nd00333.dataset.register import register
+#from nd00333.compute import aml_compute
+#from nd00333 import utils as package_utils
 
-logger = package_utils.get_logger()
+#logger = package_utils.get_logger()
 
 
 def get_environment():
@@ -40,9 +40,9 @@ def get_environment():
 
 
 def main(
-    workspace=package_utils.get_workspace(),
-    dataset_train_name=register.get_default_dataset_name("train"),
-    dataset_validate_name=register.get_default_dataset_name("validate"),
+    workspace="nd00333-capstone",#package_utils.get_workspace(),
+    dataset_train_name="train",#register.get_default_dataset_name("train"),
+    dataset_validate_name="validate",#register.get_default_dataset_name("validate"),
 ):
     """
     Return HyperDriveConfig
@@ -52,6 +52,7 @@ def main(
     #    workspace=workspace,
     #    name="nd00333-capstone",
     # )
+    raise RuntimeError("inside of main")
     args = aml_compute.parse_args()
     args.cluster_max_nodes = cluster_max_nodes
     args.cluster_sku = "Standard_D2_v3"
