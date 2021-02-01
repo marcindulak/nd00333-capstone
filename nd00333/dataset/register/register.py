@@ -15,11 +15,9 @@ from azureml.data.dataset_factory import TabularDatasetFactory
 
 from nd00333.dataset.load import load
 from nd00333 import utils as package_utils
+from nd00333.dataset.register.config import get_default_dataset_name
 
 logger = package_utils.get_logger()
-
-DATASET_NAME = "ids2018"
-DATASET_VERSION = "1"
 
 DTYPE_MAP = {"int64": DataType.to_long(), "object": DataType.to_string()}
 DATA_TYPES = {feature: DTYPE_MAP[dtype] for feature, dtype in load.DTYPE.items()}
@@ -179,13 +177,6 @@ def dataset_register(args):
         msg = f"The dataset type {args.dataset_type} is not supported"
         logger.exception(msg)
         raise RuntimeError(msg)
-
-
-def get_default_dataset_name(dataset_type):
-    """
-    Return the default dataset name
-    """
-    return f"{DATASET_NAME}{dataset_type}{DATASET_VERSION}"
 
 
 if __name__ == "__main__":

@@ -26,7 +26,7 @@ if REPOSITORY_ROOT:
     sys.path.insert(0, REPOSITORY_ROOT)
     print("Prepended {REPOSITORY_ROOT} to sys.path")
 
-from nd00333.dataset.register import register
+from nd00333.dataset.register import config
 from nd00333.compute import aml_compute
 from nd00333 import utils as package_utils
 
@@ -50,8 +50,8 @@ def get_environment():
 
 def main(
     workspace=package_utils.get_workspace(),
-    dataset_train_name=register.get_default_dataset_name("train"),
-    dataset_validate_name=register.get_default_dataset_name("validate"),
+    dataset_train_name=config.get_default_dataset_name("train"),
+    dataset_validate_name=config.get_default_dataset_name("validate"),
 ):
     """
     Return HyperDriveConfig
@@ -62,6 +62,7 @@ def main(
     #    name="nd00333-capstone",
     # )
     print(f"inside of main {os.environ['REPOSITORY_ROOT']}")
+    #xxx
     args = aml_compute.parse_args()
     args.cluster_max_nodes = cluster_max_nodes
     args.cluster_sku = "Standard_D2_v3"
