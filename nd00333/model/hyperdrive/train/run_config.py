@@ -51,7 +51,7 @@ def get_environment():
 def main(
     workspace=package_utils.get_workspace(),
     dataset_train_name=register.get_default_dataset_name("train"),
-    dataset_validate_name=rregister.get_default_dataset_name("validate"),
+    dataset_validate_name=register.get_default_dataset_name("validate"),
 ):
     """
     Return HyperDriveConfig
