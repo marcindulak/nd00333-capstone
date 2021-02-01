@@ -12,6 +12,6 @@ venv
 tests/temp
 __pycache__
 .ipynb_checkpoints
-*.json
-*.log
+/*.json
+/*.log
 *~
