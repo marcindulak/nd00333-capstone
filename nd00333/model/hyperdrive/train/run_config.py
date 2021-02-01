@@ -1,7 +1,7 @@
 """
 HyperDrive config
 """
-
+import os
 import functools
 import operator
 
@@ -19,9 +19,9 @@ from azureml.train.hyperdrive.parameter_expressions import choice
 
 #from nd00333.dataset.register import register
 #from nd00333.compute import aml_compute
-#from nd00333 import utils as package_utils
+from nd00333 import utils as package_utils
 
-#logger = package_utils.get_logger()
+logger = package_utils.get_logger()
 
 
 def get_environment():
@@ -52,7 +52,7 @@ def main(
     #    workspace=workspace,
     #    name="nd00333-capstone",
     # )
-    raise RuntimeError("inside of main")
+    raise RuntimeError(f"inside of main {os.path.environ['GITHUB_WORKSPACE']}")
     args = aml_compute.parse_args()
     args.cluster_max_nodes = cluster_max_nodes
     args.cluster_sku = "Standard_D2_v3"

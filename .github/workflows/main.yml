@@ -41,6 +41,14 @@ jobs:
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: echo $GITHUB_WORKSPACE
+        run: echo $GITHUB_WORKSPACE
+
+      - name: echo $GITHUB_WORKSPACE
+        run: echo $GITHUB_WORKSPACE
+        env:
+          GITHUB_WORKSPACE: "/github/workspace"        
+
       - name: aml_run
         id: aml_run
         uses: Azure/aml-run@e1efa559107a525e0ef78dd3beb38464b60cf749
