@@ -21,10 +21,10 @@ from azureml.train.hyperdrive.parameter_expressions import choice
 
 # https://github.com/Azure/aml-run fails to load the project modules despite
 # https://github.com/Azure/aml-run/blob/41d214555e9fe3a2fb7c2b9ce8ac489e555063ed/code/utils.py#L113
-GITHUB_WORKSPACE = os.environ.get("GITHUB_WORKSPACE", None)
-if GITHUB_WORKSPACE:
-    sys.path.insert(0, GITHUB_WORKSPACE)
-    print("Prepended {GITHUB_WORKSPACE} to sys.path")
+REPOSITORY_ROOT = os.environ.get("REPOSITORY_ROOT", None)
+if REPOSITORY_ROOT:
+    sys.path.insert(0, REPOSITORY_ROOT)
+    print("Prepended {REPOSITORY_ROOT} to sys.path")
 
 from nd00333.dataset.register import register
 from nd00333.compute import aml_compute
@@ -61,7 +61,7 @@ def main(
     #    workspace=workspace,
     #    name="nd00333-capstone",
     # )
-    raise RuntimeError(f"inside of main {os.environ['GITHUB_WORKSPACE']}")
+    print(f"inside of main {os.environ['REPOSITORY_ROOT']}")
     args = aml_compute.parse_args()
     args.cluster_max_nodes = cluster_max_nodes
     args.cluster_sku = "Standard_D2_v3"
