@@ -4,7 +4,12 @@ Common package utilities
 
 import json
 import logging
-from pythonjsonlogger import jsonlogger
+
+try:
+    from pythonjsonlogger import jsonlogger
+except ModuleNotFoundError as exc:
+    print(f"{exc.msg}: using the default formatter as the fallback")
+    jsonlogger = None
 
 from azureml.core import Workspace
 from azureml.core.model import Model
@@ -14,12 +19,15 @@ from azureml.train.hyperdrive.run import HyperDriveRun
 
 def get_logger():
     """
-    Log json
+    Log json or fallback to the default logging.Formatter
     """
     logger = logging.getLogger()
 
     handler = logging.StreamHandler()
-    formatter = jsonlogger.JsonFormatter()
+    if jsonlogger:
+        formatter = jsonlogger.JsonFormatter()
+    else:
+        formatter = logging.Formatter()
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
