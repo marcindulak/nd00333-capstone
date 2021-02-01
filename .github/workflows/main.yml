@@ -34,7 +34,7 @@ jobs:
         shell: bash
         run: |
           curl -sO https://packages.microsoft.com/repos/azure-cli/pool/main/a/azure-cli/azure-cli_2.18.0-1~focal_all.deb \
-          && dpkg -i azure-cli_*.deb \
+          && sudo dpkg -i azure-cli_*.deb \
           && az --version \
           && rm -f azure-cli_*.deb
 
