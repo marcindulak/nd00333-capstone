@@ -3,6 +3,12 @@ old
 venv
 /datasets/*
 !/datasets/.gitkeep
+/models/automl/*
+!/models/automl/.gitkeep
+!/models/automl/*.pkl
+/models/hyperdrive/*
+!/models/hyperdrive/.gitkeep
+!/models/hyperdrive/*.pkl
 tests/temp
 __pycache__
 *.json
