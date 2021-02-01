@@ -47,7 +47,7 @@ def get_sp_auth():
     try:
         azure_credentials = json.loads(input_azure_credentials)
     except json.JSONDecodeError:
-        raise ("Invalid INPUT_AZURE_CREDENTIALS")
+        raise RuntimeError("Invalid INPUT_AZURE_CREDENTIALS")
 
     return ServicePrincipalAuthentication(
         tenant_id=azure_credentials.get("tenantId", ""),
