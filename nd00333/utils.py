@@ -1,7 +1,15 @@
+"""
+Common package utilities
+"""
+
+import json
 import logging
 from pythonjsonlogger import jsonlogger
 
 from azureml.core import Workspace
+from azureml.core.model import Model
+from azureml.train.automl.run import AutoMLRun
+from azureml.train.hyperdrive.run import HyperDriveRun
 
 
 def get_logger():
@@ -10,10 +18,10 @@ def get_logger():
     """
     logger = logging.getLogger()
 
-    logHandler = logging.StreamHandler()
+    handler = logging.StreamHandler()
     formatter = jsonlogger.JsonFormatter()
-    logHandler.setFormatter(formatter)
-    logger.addHandler(logHandler)
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
     logger.setLevel(logging.INFO)
 
     return logger
@@ -37,6 +45,7 @@ def get_default_datastore(workspace):
 
 def trim_cluster_name(name):
     """
+    Return AzureML compatible cluster name.
     It can include letters, digits and dashes. It must start with a letter,
     end with a letter or digit, and be between 2 and 16 characters in length.
     """
@@ -45,3 +54,64 @@ def trim_cluster_name(name):
     else:
         cluster_name = name[-16:]
     return cluster_name
+
+
+def get_best_run(experiment, run):
+    """
+    Return the best among child runs
+    """
+    best_run = None
+    if run.type == "automl":
+        get_run = AutoMLRun(experiment=experiment, run_id=run.id)
+        best_run = get_run.get_best_child()
+    if run.type == "hyperdrive":
+        get_run = HyperDriveRun(experiment=experiment, run_id=run.id)
+        best_run = get_run.get_best_run_by_primary_metric()
+
+    return best_run
+
+
+def register_model(
+    model_name,
+    model_path="outputs/model.pkl",
+    run=None,
+):
+    """
+    Register model into the current workspace.
+    In case of run.register_model model_path is remote,
+    but in case of Model.register model_path is local.
+    Note the inconsistent order of arguments in Run.register_model and Model.register.
+    """
+    if run:
+        model = run.register_model(
+            model_name=model_name,
+            model_path=model_path,
+        )
+    else:
+        workspace = get_workspace()
+        model = Model.register(
+            workspace=workspace,
+            model_path=model_path,
+            model_name=model_name,
+        )
+    return model
+
+
+def service_predict_batch(service, dataframe, batch_size=1, verbose=0):
+    """
+    Return predictions for the dataframe from a service by making batch requests
+    """
+    predictions = []
+    batch_number_total = dataframe.shape[0] // batch_size
+    for batch_number, batch_start in enumerate(
+        range(0, dataframe.shape[0], batch_size)
+    ):
+        if verbose and batch_number % 100 == 0:
+            print(f"batch number {batch_number} of {batch_number_total}")
+        batch = dataframe.iloc[batch_start : batch_start + batch_size, :].to_dict(
+            orient="records"
+        )
+        batch_json = json.dumps({"data": batch})
+        result = json.loads(service.run(batch_json))["result"]
+        predictions.extend(result)
+    return predictions
