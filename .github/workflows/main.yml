@@ -104,3 +104,15 @@ jobs:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           model_name: ${{ steps.aml_registermodel.outputs.model_name }}
           model_version: ${{ steps.aml_registermodel.outputs.model_version }}
+
+      - name: test the model on the datasets/ids2018test dataset
+        shell: bash
+        run: |
+          scoring_uri=$(az ml service show --name "$model_name" --workspace-name nd00333-capstone \
+          --query '"scoringUri"' | xargs | tr -d "\n")
+          api_key=$(az ml service get-keys --name "$model_name" --workspace-name nd00333-capstone \
+          --query '"secondaryKey"' | xargs | tr -d "\n")
+          python scripts/test_batch.py --scoring-uri "$scoring_uri" --api-key "$api_key" --batch-size 1000
+        env:
+          model_name: ${{ steps.aml_registermodel.outputs.model_name }}
+         
