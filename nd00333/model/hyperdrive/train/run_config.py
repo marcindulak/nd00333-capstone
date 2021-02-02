@@ -4,11 +4,8 @@ HyperDrive config
 
 import functools
 import operator
-import os
-import sys
 
 from azureml.core import Environment
-from azureml.core import ComputeTarget
 from azureml.core.dataset import Dataset
 from azureml.core.runconfig import RunConfiguration
 from azureml.core.script_run_config import ScriptRunConfig
@@ -18,13 +15,6 @@ from azureml.train.hyperdrive.policy import BanditPolicy
 from azureml.train.hyperdrive.sampling import GridParameterSampling
 from azureml.train.hyperdrive.runconfig import HyperDriveConfig
 from azureml.train.hyperdrive.parameter_expressions import choice
-
-# https://github.com/Azure/aml-run fails to load the project modules despite
-# https://github.com/Azure/aml-run/blob/41d214555e9fe3a2fb7c2b9ce8ac489e555063ed/code/utils.py#L113
-REPOSITORY_ROOT = os.environ.get("REPOSITORY_ROOT", None)
-if REPOSITORY_ROOT:
-    sys.path.insert(0, REPOSITORY_ROOT)
-    print(f"Prepended REPOSITORY_ROOT {REPOSITORY_ROOT} to sys.path")
 
 from nd00333.dataset.register import config
 from nd00333.compute import aml_compute

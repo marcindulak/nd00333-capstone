@@ -89,8 +89,6 @@ jobs:
         uses: marcindulak/aml-run@c4990e45b4a34b790c8ee072e31707823d8fd83c
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
-        env:
-          REPOSITORY_ROOT: "/github/workspace-disable"
 
       - name: aml_registermodel
         id: aml_registermodel
