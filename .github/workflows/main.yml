@@ -30,6 +30,9 @@ jobs:
       - name: . venv/bin/activate&& pylint ./tests || pylint-exit $?
         run: . venv/bin/activate&& pylint ./tests || pylint-exit $?
 
+      - name: . venv/bin/activate&& pylint ./scripts || pylint-exit $?
+        run: . venv/bin/activate&& pylint ./scripts || pylint-exit $?
+
       - name: install az-cli
         shell: bash
         run: |
@@ -115,4 +118,3 @@ jobs:
           python scripts/test_batch.py --scoring-uri "$scoring_uri" --api-key "$api_key" --batch-size 1000
         env:
           model_name: ${{ steps.aml_registermodel.outputs.model_name }}
-         
