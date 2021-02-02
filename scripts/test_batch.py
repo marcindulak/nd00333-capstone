@@ -60,13 +60,8 @@ def main(args):
     Test
     """
 
-    if not args.sample_size:
-        sample_size = -1
-    else:
-        sample_size = args.sample_size
-
     csv_files = sorted(list(glob.glob(f"{args.dataset_path}/*csv")))
-    df = pd.concat((pd.read_csv(csv) for csv in csv_files)).reset_index(drop=True)[:sample_size]
+    df = pd.concat((pd.read_csv(csv) for csv in csv_files)).reset_index(drop=True)[:args.sample_size]
     x_test, y_test = df.drop(labels=["Label"], axis=1), df["Label"]
 
     headers = {"Content-Type": "application/json"}
