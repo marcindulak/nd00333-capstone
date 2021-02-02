@@ -90,7 +90,7 @@ jobs:
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
         env:
-          REPOSITORY_ROOT: "/github/workspace"
+          REPOSITORY_ROOT: "/github/workspace-disable"
 
       - name: aml_registermodel
         id: aml_registermodel
