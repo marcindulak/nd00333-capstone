@@ -115,6 +115,6 @@ jobs:
           --query '"scoringUri"' | xargs | tr -d "\n")
           api_key=$(az ml service get-keys --name "$model_name" --workspace-name nd00333-capstone \
           --query '"secondaryKey"' | xargs | tr -d "\n")
-          python scripts/test_batch.py --scoring-uri "$scoring_uri" --api-key "$api_key" --batch-size 1000
+          time python scripts/test_batch.py --scoring-uri "$scoring_uri" --api-key "$api_key" --batch-size 1000
         env:
           model_name: ${{ steps.aml_registermodel.outputs.model_name }}
