@@ -32,7 +32,7 @@ def main(service):
     input_data = json.dumps(data)
 
     output_data = service.run(input_data)
-    predictions = output_data.get("result")
+    predictions = json.loads(output_data).get("result")
     assert predictions == ["Benign"]
 
 
