@@ -25,6 +25,7 @@ def main(model_name="deploy", model_version=None, deployment_name="deploy"):
     inference_config = InferenceConfig(
         source_directory="nd00333",
         entry_script="model/deploy/score.py",
+        base_image="mcr.microsoft.com/azureml/intelmpi2018.3-ubuntu16.04:20200821.v1",
         environment=environment,
     )
     logger.info(msg="main", extra={"inference_config": inference_config})
