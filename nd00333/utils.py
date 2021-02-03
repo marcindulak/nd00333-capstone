@@ -42,7 +42,7 @@ def get_sp_auth():
     Get authentication object of the service principal or None
     """
     input_azure_credentials = os.environ.get("INPUT_AZURE_CREDENTIALS", default="{}")
-    if len(input_azure_credentials) > 0:
+    if input_azure_credentials == "{}":
         return None
     try:
         azure_credentials = json.loads(input_azure_credentials)
