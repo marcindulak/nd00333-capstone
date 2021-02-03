@@ -12,11 +12,27 @@ from nd00333 import utils as package_utils
 logger = package_utils.get_logger()
 
 
+def get_environment(name="deploy", file_path="environment.yml"):
+    """
+    Return an environment
+    """
+    environment = Environment.from_conda_specification(
+        name=name,
+        file_path=file_path,
+    )
+    environment.python.user_managed_dependencies = False
+    environment.docker.enabled = True
+    environment.docker.base_image = (
+        "mcr.microsoft.com/azureml/intelmpi2018.3-ubuntu16.04:20200821.v1"
+    )
+    return environment
+
+
 def main(model_name="deploy", model_version=None, deployment_name="deploy"):
     """
     Return a AciWebservice deploy config
     """
-    environment = Environment.from_conda_specification(
+    environment = get_environment(
         name=deployment_name,
         file_path="nd00333/model/deploy/environment.yml",
     )
@@ -25,7 +41,6 @@ def main(model_name="deploy", model_version=None, deployment_name="deploy"):
     inference_config = InferenceConfig(
         source_directory="nd00333",
         entry_script="model/deploy/score.py",
-        base_image="mcr.microsoft.com/azureml/intelmpi2018.3-ubuntu16.04:20200821.v1",
         environment=environment,
     )
     logger.info(msg="main", extra={"inference_config": inference_config})
