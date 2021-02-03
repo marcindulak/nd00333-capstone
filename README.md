@@ -61,7 +61,7 @@ The instructions below are specific to Ubuntu Linux:
 
 3. Launch "Machine Learning Studio" and fetch the `config.json`.
    Paste the json as the `CONFIG_JSON` github secret.
-   
+
    <img src="screenshots/github_create_secrets.png" alt="1">
 
 4. Install [azure-cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
@@ -118,7 +118,19 @@ The instructions below are specific to Ubuntu Linux:
    python -m pytest -v
    ```
 
-10. If preferred, install [vscode](https://code.visualstudio.com/download) for developing ipynb jupyter notebooks inside of
+10. Build the docker image of the jupyter server, start the container and test it on `localhost:888`:
+    ```sh
+    cd .devcontainer
+    docker-compose -f docker-compose.yml build
+    devcontainer_app:latest nd00333capstonedevcontainer_app:latest
+    cd ..
+    docker run -d -p 8888:8888 -v $(pwd):/app --name nd00333capstonedevcontainer_app_1 \
+    nd00333capstonedevcontainer_app:latest \
+    jupyter notebook --allow-root --ip=0.0.0.0 --port=8888
+    ```
+    The full url is shown in the container logs `docker logs nd00333capstonedevcontainer_app_1`.
+
+11. If preferred, install [vscode](https://code.visualstudio.com/download) for developing ipynb jupyter notebooks inside of
     [remote containers](https://code.visualstudio.com/docs/remote/containers)
 
 # Dataset
@@ -194,7 +206,7 @@ AutoML has unfortunately several drawbacks:
 - there is currently (beginning of 2021, azureml-sdk 1.21.0) no official API to provide custom, versioned dependencies for
   the AutoML training environment used on the remote compute cluster
   [https://github.com/Azure/MachineLearningNotebooks/issues/1315](https://github.com/Azure/MachineLearningNotebooks/issues/1315).
-  This results in errors and tends to make the old models trained with AutoML unusable when 
+  This results in errors and tends to make the old models trained with AutoML unusable when
   Azure updates the default version of azureml-sdk used by compute instances for AutoML,
 
 - there is currently (beginning of 2021, azureml-sdk 1.21.0) no official API to
@@ -259,7 +271,7 @@ The following hyperparameters are varied:
 - the `max_depth` may result in overfitting if set too high, moreover it may considerably
   increase the size of the model (to e.g. several hundreds Mbytes).
 
-The `BanditPolicy` termination policy is set equivalent to 
+The `BanditPolicy` termination policy is set equivalent to
 [NoTerminationPolicy](https://docs.microsoft.com/en-us/python/api/azureml-train-core/azureml.train.hyperdrive.noterminationpolicy?view=azure-ml-py)
 such that it allows the grid search to explore all hyperparameter values.
 The individual model runs are performed multi-threaded using all cores available on the compute
