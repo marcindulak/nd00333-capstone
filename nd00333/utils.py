@@ -42,7 +42,7 @@ def get_sp_auth():
     Get authentication object of the service principal or None
     """
     input_azure_credentials = os.environ.get("INPUT_AZURE_CREDENTIALS", default="{}")
-    if not input_azure_credentials:
+    if len(input_azure_credentials) > 0:
         return None
     try:
         azure_credentials = json.loads(input_azure_credentials)
@@ -61,7 +61,7 @@ def get_workspace():
     """
     Get the AzureML workspace from an existing config.json
     """
-    auth = auth=get_sp_auth()
+    auth = get_sp_auth()
     if auth:
         workspace = Workspace.from_config(auth=auth)
     else:
