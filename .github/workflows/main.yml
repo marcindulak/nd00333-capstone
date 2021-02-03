@@ -72,12 +72,14 @@ jobs:
         uses: Azure/aml-workspace@cdf55f1e593b02923a1a33f468c410f1fd6da818
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          parameters_file: "workspace.json"
 
       - name: aml_compute
         id: aml_compute
         uses: Azure/aml-compute@0bafcdd641d5c307037bd4bea82d303f17787541
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          parameters_file: "compute.json"
 
       - name: echo $CONFIG_JSON > config.json
         run: echo $CONFIG_JSON > config.json
@@ -89,6 +91,7 @@ jobs:
         uses: Azure/aml-run@9368ee2f99915df878e18ab424fb5ee648415c11
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          parameters_file: "run.json"
 
       - name: aml_registermodel
         id: aml_registermodel
@@ -97,6 +100,7 @@ jobs:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           run_id: ${{ steps.aml_run.outputs.run_id }}
           experiment_name: ${{ steps.aml_run.outputs.experiment_name }}
+          parameters_file: "registermodel.json"
 
       - name: aml_deploy
         id: aml_deploy
@@ -105,6 +109,7 @@ jobs:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           model_name: ${{ steps.aml_registermodel.outputs.model_name }}
           model_version: ${{ steps.aml_registermodel.outputs.model_version }}
+          parameters_file: "deploy.json"
 
       - name: test the model on the datasets/ids2018test dataset
         shell: bash
@@ -113,7 +118,7 @@ jobs:
           --query '"scoringUri"' | xargs | tr -d "\n")
           api_key=$(az ml service get-keys --name "$model_name" --workspace-name nd00333-capstone \
           --query '"secondaryKey"' | xargs | tr -d "\n")
-          . venv/bin/activate          
+          . venv/bin/activate
           time python scripts/test_batch.py --scoring-uri "$scoring_uri" --api-key "$api_key" --batch-size 1000
         env:
           model_name: ${{ steps.aml_registermodel.outputs.model_name }}
