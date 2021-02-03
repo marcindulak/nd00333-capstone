@@ -88,7 +88,7 @@ jobs:
 
       - name: aml_run
         id: aml_run
-        uses: marcindulak/aml-run@c4990e45b4a34b790c8ee072e31707823d8fd83c
+        uses: Azure/aml-run@d83832bd219fccb2a38f2653ca53ae8504e26d66
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           parameters_file: "run.json"
