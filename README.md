@@ -162,7 +162,7 @@ The features are selected in `get_feature_list` using an addition process, where
 added on-by-one in the order of importance, only if by adding a feature the performance metrics
 (the macro average of recall across all target classes) increases by a threshold.
 
-[Tarfa, H.: page 104](https://atrium.lib.uoguelph.ca/xmlui/handle/10214/10315) suggested a
+[Hamed, T.: page 104](http://hdl.handle.net/10214/10315) suggested a
 custom performance metrics based on accuracy, detection rate and false alarm rate. The present project focused on
 recall and since the out-of-sample performance was not satisfactory other types of performance metrics were not
 explored as they would most likely not improve the recall.
