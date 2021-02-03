@@ -39,13 +39,16 @@ def get_environment():
 
 
 def main(
-    workspace=package_utils.get_workspace(),
+    workspace=None,
     dataset_train_name=config.get_default_dataset_name("train"),
     dataset_validate_name=config.get_default_dataset_name("validate"),
 ):
     """
     Return HyperDriveConfig
     """
+    if not workspace:
+        workspace = package_utils.get_workspace()
+
     cluster_max_nodes = 4
     args = aml_compute.parse_args()
     args.cluster_max_nodes = cluster_max_nodes

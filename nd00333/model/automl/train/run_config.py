@@ -14,12 +14,16 @@ logger = package_utils.get_logger()
 
 
 def main(
-    workspace=package_utils.get_workspace(),
+    workspace=None,
     dataset_trainandvalidate_name=config.get_default_dataset_name("trainandvalidate"),
 ):
     """
     Return AutoMLConfig
     """
+
+    if not workspace:
+        workspace = package_utils.get_workspace()
+
     args = aml_compute.parse_args()
     cluster_max_nodes = 5
     args.cluster_max_nodes = cluster_max_nodes
