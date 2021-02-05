@@ -11,8 +11,9 @@ dependencies:
   - numpy=1.18
   - scipy=1.4
   - joblib=0.14
-  - scikit-learn=0.22
+  - scikit-learn=0.23
   - scikit-image=0.16
+  - imbalanced-learn=0.7.0
   - matplotlib=3.3
   - pandas=0.25
   - numba=0.51
