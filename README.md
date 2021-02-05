@@ -287,8 +287,10 @@ The best model yields the macro average recall of about 0.86 for
 the validation set. On the test set the macro average recall was 0.86 and the macro average
 precision 0.93, respectively. Taking into account both the precision and recall the
 model resulted from hyperparameter tuning achieved higher performance than the AutoML model.
-By relaxing the `max_depth` to over 30 the model is capable of achieving the macro average recall
-of over 0.87, however this does not improve the model performance on the out-of-sample dataset.
+By relaxing the `max_depth` to over 30 the model is capable of achieving the macro average recall of over 0.87.
+Similarly, techniques designed for imbalanced datasets (for an overview, check out for example
+[https://github.com/solegalli/machine-learning-imbalanced-data](https://github.com/solegalli/machine-learning-imbalanced-data))
+even further improve the macro average recall, however they do not improve the model performance on the out-of-sample dataset.
 
 # Model Testing
 
@@ -356,6 +358,3 @@ cat data.json | jq
 sh post.sh
 "{\"result\": [\"Benign\"]}
 ```
-
-Compare various under/overspling https://github.com/solegalli/machine-learning-imbalanced-data/blob/master/Section-07-Ensemble-Learning/07-01-Ensemble-Learning.ipynb
-Try class_weight
