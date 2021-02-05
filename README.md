@@ -98,7 +98,7 @@ The instructions below are specific to Ubuntu Linux:
 
 7. Install [docker](https://docs.docker.com/get-docker/)
 
-8. Install conda:
+8. Install miniconda:
    ```sh
     curl -sLO https://repo.anaconda.com/miniconda/Miniconda3-py38_4.9.2-Linux-x86_64.sh
     sh Miniconda3-*-Linux-x86_64.sh -b -p $HOME/miniconda3
@@ -110,6 +110,7 @@ The instructions below are specific to Ubuntu Linux:
     conda config --set env_prompt '({name}) '
     conda env create -p $PWD/venv -f environment.yml
     conda activate $PWD/venv
+    python -c "import nd00333"
     conda deactivate
     ```
 9. Test the setup by running the package tests
@@ -355,3 +356,6 @@ cat data.json | jq
 sh post.sh
 "{\"result\": [\"Benign\"]}
 ```
+
+Compare various under/overspling https://github.com/solegalli/machine-learning-imbalanced-data/blob/master/Section-07-Ensemble-Learning/07-01-Ensemble-Learning.ipynb
+Try class_weight
