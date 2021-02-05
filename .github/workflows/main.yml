@@ -94,7 +94,7 @@ jobs:
 
       - name: aml_run
         id: aml_run
-        uses: Azure/aml-run@d83832bd219fccb2a38f2653ca53ae8504e26d66
+        uses: Azure/aml-run@58862473de9e6c49958fd3ee99152d696e41ee60
         with:
           azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
           parameters_file: "run.json"
