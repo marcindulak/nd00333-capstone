@@ -164,6 +164,13 @@ def parse_args():
         help="",
     )
     parser.add_argument(
+        "--hyperparameter-class_weight",
+        required=False,
+        type=str,
+        default=None,
+        help="",
+    )
+    parser.add_argument(
         "--hyperparameter-ccp_alpha",
         required=False,
         type=float,
