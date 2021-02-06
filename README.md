@@ -293,6 +293,31 @@ Similarly, techniques designed for imbalanced datasets, e.g. SMOTE (for an overv
 even further improve the macro average recall, however they do not improve the model performance on the out-of-sample dataset.
 An extensive exploration of various imbalanced datasets techniques is computationally prohibitive.
 
+The "best" model performance metrics is shown below:
+
+```
+                          precision    recall  f1-score   support
+
+                  Benign     0.9864    0.9998    0.9930   2048549
+                     Bot     1.0000    0.9999    0.9999     43419
+        Brute Force -Web     1.0000    0.9524    0.9756        84
+        Brute Force -XSS     1.0000    1.0000    1.0000        41
+        DDOS attack-HOIC     1.0000    1.0000    1.0000     48951
+  DDoS attacks-LOIC-HTTP     1.0000    1.0000    1.0000     86440
+   DoS attacks-GoldenEye     1.0000    0.9995    0.9998      8184
+        DoS attacks-Hulk     0.9999    0.9999    0.9999      7658
+DoS attacks-SlowHTTPTest     0.7728    0.5163    0.6191     41976
+   DoS attacks-Slowloris     0.9992    1.0000    0.9996      2598
+          FTP-BruteForce     0.7177    0.8902    0.7947     58010
+           Infilteration     0.6913    0.0355    0.0675     29297
+           SQL Injection     0.8889    0.6154    0.7273        13
+          SSH-Bruteforce     1.0000    0.9998    0.9999     56208
+
+                accuracy                         0.9772   2431428
+               macro avg     0.9326    0.8578    0.8697   2431428
+            weighted avg     0.9741    0.9772    0.9714   2431428
+```
+
 # Model Testing
 
 The best models obtained from both HyperDrive and AutoML runs are tested on
