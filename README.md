@@ -293,7 +293,7 @@ Similarly, techniques designed for imbalanced datasets, e.g. SMOTE (for an overv
 even further improve the macro average recall, however they do not improve the model performance on the out-of-sample dataset.
 An extensive exploration of various imbalanced datasets techniques is computationally prohibitive.
 
-The "best" model performance metrics is shown below:
+The "best" model performance metrics on the 2018 test set is shown below:
 
 ```
                           precision    recall  f1-score   support
