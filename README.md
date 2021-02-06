@@ -235,7 +235,7 @@ AutoMLConfig in order to speed up the training:
   the runs in `allowed_models`. Models from the `RandomForest` family unbounded by `max_depth`
   may grow very large for this particular data set (to e.g. several hundreds Mbytes).
 
-The individual model runs are performed multi-threaded using all cores available on the
+The individual model runs are performed in parallel using all cores available on the
 compute instance by `max_cores_per_iteration`=-1. The number of `max_concurrent_iterations`
 is set to the number of the nodes in the compute cluster.
 
@@ -275,7 +275,7 @@ The following hyperparameters are varied:
 The `BanditPolicy` termination policy is set equivalent to
 [NoTerminationPolicy](https://docs.microsoft.com/en-us/python/api/azureml-train-core/azureml.train.hyperdrive.noterminationpolicy?view=azure-ml-py)
 such that it allows the grid search to explore all hyperparameter values.
-The individual model runs are performed multi-threaded using all cores available on the compute
+The individual model runs are performed in parallel using all cores available on the compute
 instance by setting `n_jobs`=-1. The number of `max_concurrent_runs` is set to the number of
 the nodes in the compute cluster.
 

@@ -145,7 +145,7 @@ get_ipython().run_cell_magic('time', '', '!PYTHONPATH=. python nd00333/dataset/r
 # - the slow `enable_stack_ensemble` ensemble model is excluded,
 # - only the "LightGBM", "LogisticRegression", "SGD", "XGBoostClassifier" models are allowed in the runs in `allowed_models`. Models from the "RandomForest" family unbounded by `max_depth` may grow very large (to e.g. several hundreds Mbytes).
 # 
-# The individual model runs are performed multi-threaded using all cores available on the compute instance by `max_cores_per_iteration=`-1. The number of `max_concurrent_iterations` is set to the number of the nodes in the compute cluster.
+# The individual model runs are performed in parallel using all cores available on the compute instance by `max_cores_per_iteration=`-1. The number of `max_concurrent_iterations` is set to the number of the nodes in the compute cluster.
 # 
 # See [nd00333/model/automl/train/run_config.py](nd00333/model/automl/train/run_config.py) for more details.
 # 

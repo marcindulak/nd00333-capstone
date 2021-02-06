@@ -15069,7 +15069,7 @@ Wall time: 51.3 s
 <li>the <code>criterion</code> affects the sensitivity of the model to the minority classes, which is important for imbalanced datasets, like the one used here,</li>
 <li>the <code>max_depth</code> may result in overfitting if set too high, moreover it may considerably increase the size of the model (to e.g. several hundreds Mbytes).</li>
 </ul>
-<p>The <code>BanditPolicy</code> termination policy is set such that it allows the grid search to explore all hyperparameter values, and the <code>max_concurrent_runs</code> is set to the number of grid search runs. The individual model runs are performed multi-threaded using all cores available on the compute instance by setting <code>n_jobs=-1</code>. The number of <code>max_concurrent_runs</code> is set to the number of the nodes in the compute cluster.</p>
+<p>The <code>BanditPolicy</code> termination policy is set such that it allows the grid search to explore all hyperparameter values, and the <code>max_concurrent_runs</code> is set to the number of grid search runs. The individual model runs are performed in parallel using all cores available on the compute instance by setting <code>n_jobs=-1</code>. The number of <code>max_concurrent_runs</code> is set to the number of the nodes in the compute cluster.</p>
 <p>See <a href="nd00333/model/hyperdrive/train/run_config.py">nd00333/model/hyperdrive/train/run_config.py</a> for more details.</p>
 <p>The <code>norm_macro_recall</code> is used as the performance metrics. See <a href="README.md">README.md</a> for the rationale.</p>
 

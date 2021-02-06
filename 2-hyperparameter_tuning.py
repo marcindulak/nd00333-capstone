@@ -163,7 +163,7 @@ get_ipython().run_cell_magic('time', '', '!PYTHONPATH=. python nd00333/dataset/r
 # - the `criterion` affects the sensitivity of the model to the minority classes, which is important for imbalanced datasets, like the one used here,
 # - the `max_depth` may result in overfitting if set too high, moreover it may considerably increase the size of the model (to e.g. several hundreds Mbytes).
 # 
-# The ` BanditPolicy` termination policy is set such that it allows the grid search to explore all hyperparameter values, and the `max_concurrent_runs` is set to the number of grid search runs. The individual model runs are performed multi-threaded using all cores available on the compute instance by setting `n_jobs=-1`. The number of `max_concurrent_runs` is set to the number of the nodes in the compute cluster.
+# The ` BanditPolicy` termination policy is set such that it allows the grid search to explore all hyperparameter values, and the `max_concurrent_runs` is set to the number of grid search runs. The individual model runs are performed in parallel using all cores available on the compute instance by setting `n_jobs=-1`. The number of `max_concurrent_runs` is set to the number of the nodes in the compute cluster.
 # 
 # See [nd00333/model/hyperdrive/train/run_config.py](nd00333/model/hyperdrive/train/run_config.py) for more details.
 # 
