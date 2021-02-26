@@ -123,7 +123,7 @@ The instructions below are specific to Ubuntu Linux:
     ```sh
     cd .devcontainer
     docker-compose -f docker-compose.yml build
-    devcontainer_app:latest nd00333capstonedevcontainer_app:latest
+    docker tag devcontainer_app:latest nd00333capstonedevcontainer_app:latest
     cd ..
     docker run -d -p 8888:8888 -v $(pwd):/app --name nd00333capstonedevcontainer_app_1 \
     nd00333capstonedevcontainer_app:latest \
