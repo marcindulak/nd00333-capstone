@@ -47,11 +47,11 @@ dependencies:
   - pylint=2.6.0
   - pip:
     - pylint-exit==1.2.0
-    - azureml-sdk==1.21.0
-    - azureml-defaults==1.21.0
-    - azureml-interpret==1.21.0
-    - azureml-opendatasets==1.21.0
-    - azureml-train-automl==1.21.0
-    - azureml-widgets==1.21.0
+    - azureml-sdk==1.23.0
+    - azureml-defaults==1.23.0
+    - azureml-interpret==1.23.0
+    - azureml-opendatasets==1.23.0
+    - azureml-train-automl==1.23.0
+    - azureml-widgets==1.23.0
     - inference-schema==1.1.0
     - onnx==1.7.0
