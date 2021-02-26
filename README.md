@@ -134,6 +134,12 @@ The instructions below are specific to Ubuntu Linux:
 11. If preferred, install [vscode](https://code.visualstudio.com/download) for developing ipynb jupyter notebooks inside of
     [remote containers](https://code.visualstudio.com/docs/remote/containers)
 
+12. **Note**: when naming the git branches, use only lowercase letters, digits and dashes, start with a letter and keep the
+    branch name short so the auto-generated workspace, webservice and
+    other object names satisfy the limitations described in the documentation, e.g.
+    [azureml.core.workspace](https://docs.microsoft.com/en-us/python/api/azureml-core/azureml.core.workspace(class)?view=azure-ml-py) or
+    [azureml.core.webservice](https://docs.microsoft.com/en-us/python/api/azureml-core/azureml.core.webservice(class)?view=azure-ml-py).
+
 # Dataset
 
 ## Overview
