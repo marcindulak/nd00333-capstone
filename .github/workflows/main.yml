@@ -2,7 +2,7 @@ name: main
 
 env:
   AZ_CLI_VERSION: 2.18.0
-  AZ_CLI_ML_VERSION: 1.21.0
+  AZ_CLI_ML_VERSION: 1.23.0
 
 on:
   push:
